@@ -16,6 +16,6 @@ public class Weapon : MonoBehaviour
 
     public void SwapTo()
     {
-
+        //Implement swapping of player weapon
     }
 }
