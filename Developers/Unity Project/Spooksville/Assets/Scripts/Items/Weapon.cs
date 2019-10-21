@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon
 {
     public Sprite sprite;
 
-    public float damage = 1.0f;
+    public string WeaponName { get; set; }
+    public float Damage { get; set; }
+
     //Implement more weapon stats...
 
-    public virtual void Start()
+    public virtual void Initialize()
     {
-        WeaponManager.registerWeapon(this);
+
     }
 
     public void SwapTo()

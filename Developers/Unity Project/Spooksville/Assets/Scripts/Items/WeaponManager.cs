@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour
 {
-    private static List<Weapon> weapons = new List<Weapon>();
+    private List<Weapon> weapons = new List<Weapon>();
 
-    public static void registerWeapon(Weapon weapon)
+    public void Start()
     {
-        weapons.Add(weapon);
+        registerWeapons();
+
+        foreach (Weapon weapon in weapons)
+            weapon.Initialize();
+    }
+
+    private void registerWeapons()
+    {
+        weapons.Add(new CandyCaneShooter());
     }
 }
