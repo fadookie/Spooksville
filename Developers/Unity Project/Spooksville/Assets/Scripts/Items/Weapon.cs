@@ -6,18 +6,14 @@ public abstract class Weapon
 {
     public Sprite sprite;
 
-    public string WeaponName { get; set; }
-    public float Damage { get; set; }
+    public string name;
+    public float damage;
 
     //Implement more weapon stats...
 
     public virtual void Initialize()
     {
-
-    }
-
-    public void SwapTo()
-    {
-        //Implement swapping of player weapon
+        name = null;
+        damage = 1.0f;
     }
 }
