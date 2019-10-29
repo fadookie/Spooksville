@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 153666601
+    locked: 0
+  - name: Actors
+    uniqueID: 824104887
+    locked: 0
