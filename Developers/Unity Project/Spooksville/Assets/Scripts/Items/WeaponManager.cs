@@ -7,20 +7,25 @@ public class WeaponManager : MonoBehaviour
     public static WeaponManager instance;
     private List<Weapon> weapons = new List<Weapon>();
 
-    public void Start()
+    public Weapon GetRandomWeapon()
+    {
+        Mathf.RoundToInt(Random.Range(0, weapons.Count - 1));
+    }
+
+    void Start()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(gameObject);
 
-        registerWeapons();
+        RegisterWeapons();
 
         foreach (Weapon weapon in weapons)
             weapon.Initialize();
     }
 
-    private void registerWeapons()
+    private void RegisterWeapons()
     {
         weapons.Add(new CandyCaneShooter());
     }
