@@ -18,19 +18,11 @@ public class PlayerAnimationController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
-        if (x == 0 && y == 0)
-        {
-            animator.SetBool("isIdle", true);
-        }
-        else
-        {
-            animator.SetBool("isIdle", false);
-        }
-
         if (x > 0)
         {
             animator.SetBool("isSideWalking", true);
             spriteRenderer.flipX = true;
+
             return;
         }
         else if (x < 0)
