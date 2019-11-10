@@ -9,7 +9,7 @@ public class WeaponManager : MonoBehaviour
 
     public Weapon GetRandomWeapon()
     {
-        Mathf.RoundToInt(Random.Range(0, weapons.Count - 1));
+        return weapons[Mathf.RoundToInt(Random.Range(0, weapons.Count - 1))];
     }
 
     void Start()

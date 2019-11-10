@@ -29,11 +29,11 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Translate(new Vector3(direction.x, 0f) * speed * Time.deltaTime);
         }
-
+        //what's going on?//
         hit = Physics2D.BoxCast(transform.position, boxCollider.size, 0f, new Vector2(0f, direction.y), Mathf.Abs(direction.y * speed * Time.deltaTime), LayerMask.GetMask(maskedLayers));
         if (hit.collider == null)
         {
             transform.Translate(new Vector3(0f, direction.y) * speed * Time.deltaTime);
         }
-    }
+    }//big poopy
 }
