@@ -21,7 +21,8 @@ public class PlayerAnimationController : MonoBehaviour
         if (x == 0 && y == 0)
         {
             animator.SetBool("isIdle", true);
-        } else
+        }
+        else
         {
             animator.SetBool("isIdle", false);
         }
@@ -37,7 +38,8 @@ public class PlayerAnimationController : MonoBehaviour
             animator.SetBool("isSideWalking", true);
             spriteRenderer.flipX = false;
             return;
-        } else
+        }
+        else
         {
             animator.SetBool("isSideWalking", false);
         }
@@ -46,7 +48,8 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetBool("isUpWalking", true);
             return;
-        } else
+        }
+        else
         {
             animator.SetBool("isUpWalking", false);
         }
@@ -55,7 +58,8 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetBool("isDownWalking", true);
             return;
-        } else
+        }
+        else
         {
             animator.SetBool("isDownWalking", false);
         }
