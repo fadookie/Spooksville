@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public abstract class Inventory
 {
     private static List<Weapon> weapons = new List<Weapon>();
     
@@ -15,6 +15,4 @@ public class Inventory
     {
         return weapons;
     }
-
-    
 }

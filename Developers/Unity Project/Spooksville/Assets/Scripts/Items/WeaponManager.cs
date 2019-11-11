@@ -15,9 +15,10 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         if (instance == null)
+        {
             instance = this;
-        else
-            Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
+        }
 
         RegisterWeapons();
 
