@@ -7,13 +7,11 @@ public abstract class Weapon
     public Sprite sprite;
 
     public string name;
-    public float damage;
-
-    //Implement more weapon stats...
+    public int damage;
 
     public virtual void Initialize()
     {
         name = null;
-        damage = 1.0f;
+        damage = 1;
     }
 }

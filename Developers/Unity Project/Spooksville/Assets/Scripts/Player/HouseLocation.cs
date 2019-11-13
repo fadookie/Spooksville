@@ -13,6 +13,7 @@ public class HouseLocation : MonoBehaviour
             if (collision.gameObject.tag.Equals("Player"))
             {
                 hasTriggered = true;
+                DialogManager.instance.DisplayRandomCollectText();
                 Inventory.AddWeapon(WeaponManager.instance.GetRandomWeapon());
                 Destroy(gameObject);
             }

@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TreeMap_2
+  m_Name: sidewalk(Light)
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -7003087968167124854, guid: 335a417e95127e644a0a3c2972b7bb4d,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80da1f2d69f2b8045b464bda193e0be7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

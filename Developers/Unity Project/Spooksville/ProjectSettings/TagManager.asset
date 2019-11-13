@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Actor
-  - 
+  - Collision
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 153666601
+    locked: 0
+  - name: Environment
+    uniqueID: 1523671563
     locked: 0
   - name: Actors
     uniqueID: 824104887
