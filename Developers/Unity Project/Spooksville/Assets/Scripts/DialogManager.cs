@@ -16,6 +16,7 @@ public class DialogManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
+        collectionMessages.Add("Get out of here!");
     }
 
     private void Awake()
@@ -29,7 +30,6 @@ public class DialogManager : MonoBehaviour
 
         RenderText(text, 3f);
     }
-
     public void RenderText(string text)
     {
         GetTextContainer().gameObject.SetActive(true);

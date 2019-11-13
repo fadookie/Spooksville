@@ -22,14 +22,11 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetBool("isSideWalking", true);
             spriteRenderer.flipX = true;
-
-            return;
         }
         else if (x < 0)
         {
             animator.SetBool("isSideWalking", true);
             spriteRenderer.flipX = false;
-            return;
         }
         else
         {
@@ -39,7 +36,6 @@ public class PlayerAnimationController : MonoBehaviour
         if (y > 0)
         {
             animator.SetBool("isUpWalking", true);
-            return;
         }
         else
         {
@@ -49,7 +45,6 @@ public class PlayerAnimationController : MonoBehaviour
         if (y < 0)
         {
             animator.SetBool("isDownWalking", true);
-            return;
         }
         else
         {
