@@ -14,10 +14,12 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Run static analysis
-      run: |
-        sudo apt install nuget
-        nuget install Microsoft.Net.Compilers   # Install C# and VB compilers
-        nuget install Microsoft.CodeAnalysis    # Install Language APIs and Services
-        nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
-        dotnet msbuild 'Developers/Unity Project/Spooksville/Assembly-CSharp.csproj' /p:RunCodeAnalysis=true
+      uses: fadookie/unity3d-runner-action
+      with:
+        who-to-greet: |
+          sudo apt install nuget
+          nuget install Microsoft.Net.Compilers   # Install C# and VB compilers
+          nuget install Microsoft.CodeAnalysis    # Install Language APIs and Services
+          nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
+          dotnet msbuild 'Developers/Unity Project/Spooksville/Assembly-CSharp.csproj' /p:RunCodeAnalysis=true
 
