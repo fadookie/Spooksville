@@ -15,6 +15,7 @@ jobs:
         dotnet-version: 2.2.108
     - name: Run static analysis
       run: |
+        sudo apt install nuget
         nuget install Microsoft.Net.Compilers   # Install C# and VB compilers
         nuget install Microsoft.CodeAnalysis    # Install Language APIs and Services
         nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
