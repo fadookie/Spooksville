@@ -15,8 +15,8 @@ jobs:
         dotnet-version: 2.2.108
     - name: Run static analysis
       run: |
-        dotnet nuget install Microsoft.Net.Compilers   # Install C# and VB compilers
-        dotnet nuget install Microsoft.CodeAnalysis    # Install Language APIs and Services
-        dotnet nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
+        nuget install Microsoft.Net.Compilers   # Install C# and VB compilers
+        nuget install Microsoft.CodeAnalysis    # Install Language APIs and Services
+        nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
         dotnet msbuild 'Developers/Unity Project/Spooksville/Assembly-CSharp.csproj' /p:RunCodeAnalysis=true
 
