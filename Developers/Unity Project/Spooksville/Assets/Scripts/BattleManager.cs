@@ -18,9 +18,9 @@ public class BattleManager : MonoBehaviour
 
     private string weaponSelectionMessage = "What weapon will you choose?";
 
-    private float selectionDelay = 0.15f;
+    private float selectionDelay = 0.325f;
     private float lastSelection;
-    private bool isOnSelectionDelay;
+    private bool isPressed;
 
     private void Start()
     {
@@ -85,14 +85,21 @@ public class BattleManager : MonoBehaviour
         var x = Input.GetAxisRaw("Horizontal");
         var y = Input.GetAxisRaw("Vertical");
 
-        if (Time.time - lastSelection > selectionDelay)
+        if (!isPressed)
         {
-            lastSelection = Time.time;
-
             Inventory.Column += (int)x;
             Inventory.Row += (int)-y;
 
             Inventory.UpdateView();
+        }
+
+        if (x != 0 || y != 0)
+        {
+            isPressed = true;
+        }
+        else
+        {
+            isPressed = false;
         }
     }
     #endregion

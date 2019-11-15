@@ -79,7 +79,6 @@ public abstract class Inventory
         }
     }
 
-
     public static void UpdateView()
     {
         for (int i = 0; i < weapons.Count; i++)
