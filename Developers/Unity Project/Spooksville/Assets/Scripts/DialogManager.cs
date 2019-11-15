@@ -16,20 +16,18 @@ public class DialogManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
+        container.gameObject.SetActive(false);
         collectionMessages.Add("Get out of here!");
     }
 
-    private void Awake()
-    {
-        container.gameObject.SetActive(false);
-    }
-
+    #region Code
     public void DisplayRandomCollectText()
     {
         string text = collectionMessages[Mathf.RoundToInt(Random.Range(0, collectionMessages.Count - 1))];
 
         RenderText(text, 3f);
     }
+
     public void RenderText(string text)
     {
         GetTextContainer().gameObject.SetActive(true);
@@ -53,4 +51,6 @@ public class DialogManager : MonoBehaviour
     {
         return container;
     }
+
+    #endregion 
 }

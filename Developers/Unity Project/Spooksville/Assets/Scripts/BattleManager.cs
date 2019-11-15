@@ -1,29 +1,106 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
 
-    private int bossHealth = 100;
+    [Header("Containers")]
+    [SerializeField] private Text headerContainer;
+    private Text previousHeaderText;
+    public Text centerInventoryContainer;
+    public List<Text> inventoryContainers;
 
-    void Start()
+    [Header("Boss Settings")]
+    public int bossHealth = 100;
+
+    private string weaponSelectionMessage = "What weapon will you choose?";
+
+    private float selectionDelay = 0.15f;
+    private float lastSelection;
+    private bool isOnSelectionDelay;
+
+    private void Start()
     {
         if (instance == null)
+        {
             instance = this;
+        }
+
+        Inventory.Show();
     }
 
+    private void Update()
+    {
+        InventorySelection();
+    }
+
+    #region Fight Logic
     public void Attack(Weapon weapon)
     {
-        bossHealth -= weapon.damage;
+        bossHealth -= weapon.Damage;
 
-        //Delay when showing the text before resetting UI
-        Invoke("ResetUI", 3);
+        DisplayAttackText("Mom was attacked by " + weapon.Name);
+    }
+    #endregion
+
+    #region UI Management
+    #region Text Display
+    public void DisplayHeaderText(string text)
+    {
+        previousHeaderText.text = headerContainer.text;
+
+        headerContainer.text = text;
     }
 
-    private void ResetUI()
+    public void DisplayTemporaryHeaderText(string text, float time)
     {
+        headerContainer.text = text;
+        StartCoroutine(WaitSeconds(time));
+        PreviousHeaderText();
+    }
 
+    private void DisplayAttackText(string text)
+    {
+        headerContainer.text = text;
+
+        Inventory.Hide();
+        StartCoroutine(WaitSeconds(3f));
+
+        headerContainer.text = previousHeaderText.text;
+        Inventory.Show();
+    }
+
+    private void PreviousHeaderText()
+    {
+        headerContainer.text = previousHeaderText.text;
+    }
+    #endregion
+
+    #region Inventory Selection
+    private void InventorySelection()
+    {
+        var x = Input.GetAxisRaw("Horizontal");
+        var y = Input.GetAxisRaw("Vertical");
+
+        if (Time.time - lastSelection > selectionDelay)
+        {
+            lastSelection = Time.time;
+
+            Inventory.Column += (int)x;
+            Inventory.Row += (int)-y;
+
+            Inventory.UpdateView();
+        }
+    }
+    #endregion
+
+    #endregion
+
+    private IEnumerator WaitSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }

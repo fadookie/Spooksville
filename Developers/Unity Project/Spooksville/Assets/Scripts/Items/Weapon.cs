@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon
+public class Weapon
 {
-    public Sprite sprite;
+    public string Name { get; private set; }
+    public int Damage { get; private set; }
 
-    public string name;
-    public int damage;
-
-    public virtual void Initialize()
+    public Weapon(string name, int damage)
     {
-        name = null;
-        damage = 1;
+        Name = name;
+        Damage = damage;
     }
 }
