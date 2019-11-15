@@ -95,7 +95,7 @@ public abstract class Inventory
                         BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].Name;
                     } else
                     {
-                        BattleManager.instance.inventoryContainers[i].text = " ";
+                        BattleManager.instance.inventoryContainers[i].text = "";
                     }
 
                     BattleManager.instance.inventoryContainers[i].color = new Color(1f, 1f, 1f);
