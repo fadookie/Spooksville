@@ -9,7 +9,7 @@ public abstract class Inventory
 
     private static int window = 1;
     private static int windows = 0;
-    private static int row = 1;
+    private static int row;
     public static int Row
     {
         get
@@ -19,9 +19,9 @@ public abstract class Inventory
 
         set
         {
-            if (value < 1)
+            if (value < 0)
             {
-                row = 1;
+                row = 0;
 
                 if (window - 1 < 1)
                 {
@@ -34,9 +34,9 @@ public abstract class Inventory
                 return;
             }
 
-            if (value > 3)
+            if (value > 2)
             {
-                row = 1;
+                row = 2;
 
                 if (window + 1 > windows)
                 {
@@ -53,7 +53,7 @@ public abstract class Inventory
             row = value;
         }
     }
-    private static int column = 1;
+    private static int column;
     public static int Column
     {
         get
@@ -63,15 +63,15 @@ public abstract class Inventory
 
         set
         {
-            if (value < 1)
+            if (value < 0)
             {
-                column = 1;
+                column = 0;
                 return;
             }
 
-            if (value > 3)
+            if (value > 2)
             {
-                column = 3;
+                column = 2;
                 return;
             }
 
@@ -117,7 +117,7 @@ public abstract class Inventory
     public static int GetPreSelectionWeaponIndex()
     {
         //Work on non full 9 screens
-        int index = (3 * (Row - 1)) + (Column - 1);
+        int index = (3 * (Row)) + (Column);
         return index;
     }
 
@@ -141,3 +141,4 @@ public abstract class Inventory
         }
     }
 }
+ 
