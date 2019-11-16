@@ -50,3 +50,6 @@ TagManager:
   - name: Actors
     uniqueID: 824104887
     locked: 0
+  - name: House
+    uniqueID: 2743718693
+    locked: 0
