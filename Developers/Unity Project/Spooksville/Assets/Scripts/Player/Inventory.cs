@@ -116,7 +116,7 @@ public abstract class Inventory
                 {
                     if (weaponIndex < weapons.Count)
                     {
-                        BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].Name;
+                        BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].name;
                     } else
                     {
                         BattleManager.instance.inventoryContainers[i].text = "";

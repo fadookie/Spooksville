@@ -38,7 +38,7 @@ public class BattleManager : MonoBehaviour
     {
         bossHealth -= weapon.Damage;
 
-        DisplayAttackText("Mom was attacked by " + weapon.Name);
+        DisplayAttackText("Mom was attacked by " + weapon.name);
     }
     #endregion
 
