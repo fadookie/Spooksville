@@ -18,10 +18,6 @@ public class BattleManager : MonoBehaviour
 
     private string weaponSelectionMessage = "What weapon will you choose?";
 
-    private float selectionDelay = 0.325f;
-    private float lastSelection;
-    private bool isPressed;
-
     private void Start()
     {
         if (instance == null)
@@ -29,12 +25,12 @@ public class BattleManager : MonoBehaviour
             instance = this;
         }
 
-        Inventory.Show();
+        Inventory.Hide();
     }
 
     private void Update()
     {
-        InventorySelection();
+        Inventory.InventorySelection();
     }
 
     #region Fight Logic
@@ -47,7 +43,6 @@ public class BattleManager : MonoBehaviour
     #endregion
 
     #region UI Management
-    #region Text Display
     public void DisplayHeaderText(string text)
     {
         previousHeaderText.text = headerContainer.text;
@@ -77,33 +72,6 @@ public class BattleManager : MonoBehaviour
     {
         headerContainer.text = previousHeaderText.text;
     }
-    #endregion
-
-    #region Inventory Selection
-    private void InventorySelection()
-    {
-        var x = Input.GetAxisRaw("Horizontal");
-        var y = Input.GetAxisRaw("Vertical");
-
-        if (!isPressed)
-        {
-            Inventory.Column += (int)x;
-            Inventory.Row += (int)-y;
-
-            Inventory.UpdateView();
-        }
-
-        if (x != 0 || y != 0)
-        {
-            isPressed = true;
-        }
-        else
-        {
-            isPressed = false;
-        }
-    }
-    #endregion
-
     #endregion
 
     private IEnumerator WaitSeconds(float seconds)

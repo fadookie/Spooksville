@@ -7,7 +7,6 @@ public class WeaponManager : MonoBehaviour
     public static WeaponManager instance;
     private List<Weapon> weapons = new List<Weapon>();
 
-
     private void Start()
     {
         if (instance == null)
@@ -27,6 +26,16 @@ public class WeaponManager : MonoBehaviour
         Inventory.AddWeapon(GetWeaponByName("F"));
         Inventory.AddWeapon(GetWeaponByName("G"));
         Inventory.AddWeapon(GetWeaponByName("H"));
+    }
+
+    public void RegisterWeapon(Weapon weapon)
+    {
+        weapons.Add(weapon);
+    }
+
+    public List<Weapon> GetWeapons()
+    {
+        return weapons;
     }
 
     public Weapon GetRandomWeapon()

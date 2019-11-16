@@ -7,6 +7,8 @@ public abstract class Inventory
 {
     private static List<Weapon> weapons = new List<Weapon>();
 
+    private static bool isPressed;
+
     private static int window = 1;
     private static int windows = 0;
     private static int row;
@@ -76,6 +78,29 @@ public abstract class Inventory
             }
 
             column = value;
+        }
+    }
+
+    public static void InventorySelection()
+    {
+        var x = Input.GetAxisRaw("Horizontal");
+        var y = Input.GetAxisRaw("Vertical");
+
+        if (!isPressed)
+        {
+            Column += (int)x;
+            Row += (int)-y;
+
+            UpdateView();
+        }
+
+        if (x != 0 || y != 0)
+        {
+            isPressed = true;
+        }
+        else
+        {
+            isPressed = false;
         }
     }
 
