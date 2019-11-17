@@ -53,8 +53,7 @@ public class BattleManager : MonoBehaviour
     public void DisplayTemporaryHeaderText(string text, float time)
     {
         headerContainer.text = text;
-        StartCoroutine(WaitSeconds(time));
-        PreviousHeaderText();
+        StartCoroutine(SetToPreviousHeaderText(time));
     }
 
     private void DisplayAttackText(string text)
@@ -62,7 +61,7 @@ public class BattleManager : MonoBehaviour
         headerContainer.text = text;
 
         Inventory.Hide();
-        StartCoroutine(WaitSeconds(3f));
+        StartCoroutine(SetToPreviousHeaderText(3f));
 
         headerContainer.text = previousHeaderText.text;
         Inventory.Show();
@@ -74,8 +73,9 @@ public class BattleManager : MonoBehaviour
     }
     #endregion
 
-    private IEnumerator WaitSeconds(float seconds)
+    private IEnumerator SetToPreviousHeaderText(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        PreviousHeaderText();
     }
 }

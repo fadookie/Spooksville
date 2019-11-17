@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
     }
 
     private void Awake()
-    {
+    {   
         foreach (Sound sound in sounds)
         {
             sound.source = gameObject.AddComponent<AudioSource>();
@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void Play(string name, bool isLooping)
+    public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         s.source.Play();

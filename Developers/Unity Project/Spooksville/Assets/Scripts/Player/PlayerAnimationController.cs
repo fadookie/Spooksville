@@ -50,6 +50,5 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetBool("isDownWalking", false);
         }
-
     }
 }

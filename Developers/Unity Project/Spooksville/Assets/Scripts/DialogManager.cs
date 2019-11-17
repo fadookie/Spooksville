@@ -10,9 +10,12 @@ public class DialogManager : MonoBehaviour
     public static DialogManager instance;
 
     public Text container;
+    private Color originalColor;
+
     public float typeSpeed = 0.02f;
-    [Range(0.05f, .1f)]
-    public float fadeSpeed = .1f;
+    [Range(0f, 255f)]
+    public float fadeSpeed = 10f;
+    public float duration;
 
     private List<string> collectionMessages = new List<string>();
 
@@ -27,12 +30,14 @@ public class DialogManager : MonoBehaviour
             instance = this;
 
         container.gameObject.SetActive(false);
+        originalColor = container.color;
+
         InitCollectionMessages();
     }
 
     private void Update()
     {
-
+        FadeText();
     }
 
     #region Code
@@ -40,18 +45,19 @@ public class DialogManager : MonoBehaviour
     {
         string text = collectionMessages[(new System.Random()).Next(collectionMessages.Count)];
 
-        RenderText(text, 2.5f);
+        RenderText(text, duration);
     }
 
     public void RenderText(string text)
     {
-        GetTextContainer().gameObject.SetActive(true);
-        GetTextContainer().text = text;
+        container.gameObject.SetActive(true);
+        container.text = text;
     }
 
     public void RenderText(string text, float time)
     {
-        GetTextContainer().gameObject.SetActive(true);
+        container.gameObject.SetActive(true);
+        container.color = originalColor;
 
         if (removeTextRoutine != null) StopCoroutine(removeTextRoutine);
         if (currentTypeRoutine != null) StopCoroutine(currentTypeRoutine);
@@ -81,12 +87,12 @@ public class DialogManager : MonoBehaviour
     private IEnumerator RemoveText(float time)
     {
         yield return new WaitForSeconds(time);
-        GetTextContainer().gameObject.SetActive(false);
+        canFadeText = true;
     }
 
     private IEnumerator Type(string text)
     {
-        GetTextContainer().text = "";
+        container.text = "";
 
         foreach (char letter in text.ToCharArray())
         {
@@ -100,10 +106,12 @@ public class DialogManager : MonoBehaviour
 
     private IEnumerator Type(string text, float time)
     {
-        GetTextContainer().text = "";
+        container.text = "";
 
         foreach (char letter in text.ToCharArray())
         {
+            //Popping SFX || FIX with delay
+            AudioManager.instance.Play("Talking");
             container.text += letter;
             yield return new WaitForSeconds(typeSpeed);
         }
@@ -115,7 +123,14 @@ public class DialogManager : MonoBehaviour
     {
         if (canFadeText)
         {
-            //DO THIS!
+            if (container.color.a - (fadeSpeed / 255f) <= 0)
+            {
+                container.color = container.color = new Color(container.color.r, container.color.g, container.color.b, 0f);
+                canFadeText = false;
+                return;
+            }
+
+            container.color = new Color(container.color.r, container.color.g, container.color.b, container.color.a - (fadeSpeed / 255f));
         }
     }
 }

@@ -385,6 +385,11 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: Talking
+    clip: {fileID: 8300000, guid: 038c294d2c409d146a66589c83844d21, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
 --- !u!4 &1779269134
 Transform:
   m_ObjectHideFlags: 0
