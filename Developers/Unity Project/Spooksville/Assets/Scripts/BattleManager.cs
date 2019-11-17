@@ -36,7 +36,7 @@ public class BattleManager : MonoBehaviour
     #region Fight Logic
     public void Attack(Weapon weapon)
     {
-        bossHealth -= weapon.Damage;
+        bossHealth -= weapon.damage;
 
         DisplayAttackText("Mom was attacked by " + weapon.name);
     }

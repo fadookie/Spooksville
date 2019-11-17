@@ -6,7 +6,8 @@ using System.Linq;
 public class WeaponManager : MonoBehaviour
 {
     public static WeaponManager instance;
-    private List<Weapon> weapons = new List<Weapon>();
+    public Weapon[] weapons;
+    private List<Weapon> weaponsList = new List<Weapon>();
 
     private void Start()
     {
@@ -16,27 +17,27 @@ public class WeaponManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        RegisterWeapons();
+        weaponsList.AddRange(weapons);
     }
 
     public void RegisterWeapon(Weapon weapon)
     {
-        weapons.Add(weapon);
+        weaponsList.Add(weapon);
     }
 
     public List<Weapon> GetWeapons()
     {
-        return weapons;
+        return weaponsList;
     }
 
     public Weapon GetRandomWeapon()
     {
-        return weapons[(new System.Random()).Next(weapons.Count)];
+        return weaponsList[(new System.Random()).Next(weaponsList.Count)];
     }
 
     public Weapon GetWeaponByName(string name)
     {
-        foreach (Weapon weapon in weapons)
+        foreach (Weapon weapon in weaponsList)
         {
             if (weapon.name.Equals(name))
             {
@@ -45,10 +46,5 @@ public class WeaponManager : MonoBehaviour
         }
 
         return null;
-    }
-
-    private void RegisterWeapons()
-    {
-
     }
 }
