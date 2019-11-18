@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;
 
     [Header("Containers")]
-    [SerializeField] private Text headerContainer;
+    [SerializeField] private Text container;
     private Text previousHeaderText;
     public Text centerInventoryContainer;
     public List<Text> inventoryContainers;
@@ -16,20 +17,30 @@ public class BattleManager : MonoBehaviour
     [Header("Boss Settings")]
     public int bossHealth = 100;
 
-    private string weaponSelectionMessage = "What weapon will you choose?";
+    private List<string> dialog = new List<string>();
+    private int dialogIndex;
+    private bool isDisplaying;
+    private bool isPressed;
+
+    private Coroutine typing;
+
+    private enum BattleState
+    {
+        Entrance, InventorySelection, Dialogue
+    }
 
     private void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        if (instance == null) instance = this;
 
+        ReadDialogue();
         Inventory.Hide();
     }
 
     private void Update()
     {
+        EntranceDialog();
+
         Inventory.InventorySelection();
     }
 
@@ -45,31 +56,90 @@ public class BattleManager : MonoBehaviour
     #region UI Management
     public void DisplayHeaderText(string text)
     {
-        previousHeaderText.text = headerContainer.text;
+        previousHeaderText.text = container.text;
 
-        headerContainer.text = text;
+        container.text = text;
     }
 
     public void DisplayTemporaryHeaderText(string text, float time)
     {
-        headerContainer.text = text;
+        container.text = text;
         StartCoroutine(SetToPreviousHeaderText(time));
     }
 
     private void DisplayAttackText(string text)
     {
-        headerContainer.text = text;
+        container.text = text;
 
         Inventory.Hide();
         StartCoroutine(SetToPreviousHeaderText(3f));
 
-        headerContainer.text = previousHeaderText.text;
+        container.text = previousHeaderText.text;
         Inventory.Show();
     }
 
     private void PreviousHeaderText()
     {
-        headerContainer.text = previousHeaderText.text;
+        container.text = previousHeaderText.text;
+    }
+    #endregion
+
+    #region Dialog Management
+    private void EntranceDialog()
+    {
+        var enter = Input.GetAxisRaw("Select");
+
+        if (enter == 1 && !isPressed)
+        {
+            isPressed = true;
+            isDisplaying = false;
+
+            dialogIndex++;
+        }
+
+        if (enter == 0) isPressed = false;
+
+        if (!isDisplaying)
+        {
+            if (typing != null) StopCoroutine(typing);
+            typing = StartCoroutine(Type(container, dialog[dialogIndex], 0.05f));
+            isDisplaying = true;
+        }
+    }
+
+    public IEnumerator Type(Text textContainer, string text, float time)
+    {
+        textContainer.text = "";
+
+        foreach (char letter in text.ToCharArray())
+        {
+            textContainer.text += letter;
+            yield return new WaitForSeconds(time);
+
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying)
+            {
+                AudioManager.instance.Play("Talking");
+            }
+        }
+
+        if (AudioManager.instance.GetSound("Talking").source.isPlaying)
+        {
+            AudioManager.instance.Stop("Talking", .3f);
+        }
+    }
+
+    private void ReadDialogue()
+    {
+        string path = "Assets/Utility/Dialog/Battle.txt";
+
+        StreamReader reader = new StreamReader(path);
+
+        while (!reader.EndOfStream)
+        {
+            dialog.Add(reader.ReadLine());
+        }
+
+        reader.Close();
     }
     #endregion
 

@@ -26,8 +26,7 @@ public class DialogManager : MonoBehaviour
 
     private void Start()
     {
-        if (instance == null)
-            instance = this;
+        if (instance == null) instance = this;
 
         container.gameObject.SetActive(false);
         originalColor = container.color;
@@ -57,11 +56,12 @@ public class DialogManager : MonoBehaviour
     public void RenderText(string text, float time)
     {
         container.gameObject.SetActive(true);
+        canFadeText = false;
         container.color = originalColor;
 
         if (removeTextRoutine != null) StopCoroutine(removeTextRoutine);
         if (currentTypeRoutine != null) StopCoroutine(currentTypeRoutine);
-        currentTypeRoutine = StartCoroutine(Type(text, time));
+        currentTypeRoutine = StartCoroutine(TypeCollectionDialogue(text, time));
     }
 
     private Text GetTextContainer()
@@ -90,30 +90,36 @@ public class DialogManager : MonoBehaviour
         canFadeText = true;
     }
 
-    private IEnumerator Type(string text)
+    public IEnumerator Type(Text textContainer, string text, float time)
+    {
+        textContainer.text = "";
+
+        foreach (char letter in text.ToCharArray())
+        {
+            textContainer.text += letter;
+            yield return new WaitForSeconds(time);
+        }
+    }
+
+    private IEnumerator TypeCollectionDialogue(string text, float time)
     {
         container.text = "";
 
         foreach (char letter in text.ToCharArray())
         {
             container.text += letter;
+
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying)
+            {
+                AudioManager.instance.Play("Talking");
+            }
+
             yield return new WaitForSeconds(typeSpeed);
         }
 
-        if (removeTextRoutine != null) StopCoroutine(removeTextRoutine);
-        removeTextRoutine = StartCoroutine(RemoveText(1f));
-    }
-
-    private IEnumerator Type(string text, float time)
-    {
-        container.text = "";
-
-        foreach (char letter in text.ToCharArray())
+        if (AudioManager.instance.GetSound("Talking").source.isPlaying)
         {
-            //Popping SFX || FIX with delay
-            AudioManager.instance.Play("Talking");
-            container.text += letter;
-            yield return new WaitForSeconds(typeSpeed);
+            AudioManager.instance.Stop("Talking", .3f);
         }
 
         removeTextRoutine = StartCoroutine(RemoveText(time));

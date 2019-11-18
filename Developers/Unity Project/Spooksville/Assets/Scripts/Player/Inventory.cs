@@ -81,6 +81,8 @@ public abstract class Inventory
         }
     }
 
+    public static bool IsEnabled { get; private set; }
+
     public static void InventorySelection()
     {
         var x = Input.GetAxisRaw("Horizontal");
@@ -132,6 +134,8 @@ public abstract class Inventory
 
     public static void Hide()
     {
+        IsEnabled = false;
+
         foreach (Text text in BattleManager.instance.inventoryContainers)
         {
             text.gameObject.SetActive(false);
@@ -159,6 +163,8 @@ public abstract class Inventory
 
     public static void Show()
     {
+        IsEnabled = true;
+
         foreach (Text text in BattleManager.instance.inventoryContainers)
         {
             text.gameObject.SetActive(true);
