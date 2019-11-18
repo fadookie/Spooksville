@@ -1758,7 +1758,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Talking
-    clip: {fileID: 8300000, guid: f964c239d9b709945b63cfc1366a9298, type: 3}
+    clip: {fileID: 8300000, guid: e4eb27b377c8fcc468b2ee89741317f3, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
