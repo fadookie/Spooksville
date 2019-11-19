@@ -9,7 +9,9 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;
 
     [Header("Containers")]
-    [SerializeField] private Text container;
+    [SerializeField] private Text charachterDialog;
+    [SerializeField] private Text headerContainer;
+
     private Text previousHeaderText;
     public Text centerInventoryContainer;
     public List<Text> inventoryContainers;
@@ -22,16 +24,15 @@ public class BattleManager : MonoBehaviour
     private bool isDisplaying;
     private bool isPressed;
 
-    private Coroutine typing;
+    private bool isInBattle;
 
-    private enum BattleState
-    {
-        Entrance, InventorySelection, Dialogue
-    }
+    private Coroutine typing;
 
     private void Start()
     {
         if (instance == null) instance = this;
+
+        headerContainer.text = "";
 
         ReadDialogue();
         Inventory.Hide();
@@ -45,6 +46,20 @@ public class BattleManager : MonoBehaviour
     }
 
     #region Fight Logic
+    private void StartBattle()
+    {
+        isInBattle = true;
+
+        StopCoroutine(typing);
+        charachterDialog.gameObject.SetActive(false);
+        GameObject.Find("Text Canvas").transform.Find("Enter to Continue").gameObject.SetActive(false);
+        if (AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Stop("Talking", .3f);
+
+        headerContainer.text = "What weapon will you choose?";
+
+        Inventory.Show();
+    }
+
     public void Attack(Weapon weapon)
     {
         bossHealth -= weapon.damage;
@@ -56,54 +71,65 @@ public class BattleManager : MonoBehaviour
     #region UI Management
     public void DisplayHeaderText(string text)
     {
-        previousHeaderText.text = container.text;
+        previousHeaderText.text = charachterDialog.text;
 
-        container.text = text;
+        charachterDialog.text = text;
     }
 
     public void DisplayTemporaryHeaderText(string text, float time)
     {
-        container.text = text;
+        charachterDialog.text = text;
         StartCoroutine(SetToPreviousHeaderText(time));
     }
 
     private void DisplayAttackText(string text)
     {
-        container.text = text;
+        charachterDialog.text = text;
 
         Inventory.Hide();
         StartCoroutine(SetToPreviousHeaderText(3f));
 
-        container.text = previousHeaderText.text;
+        charachterDialog.text = previousHeaderText.text;
         Inventory.Show();
     }
 
     private void PreviousHeaderText()
     {
-        container.text = previousHeaderText.text;
+        charachterDialog.text = previousHeaderText.text;
     }
     #endregion
 
     #region Dialog Management
     private void EntranceDialog()
     {
-        var enter = Input.GetAxisRaw("Select");
-
-        if (enter == 1 && !isPressed)
+        if (!isInBattle)
         {
-            isPressed = true;
-            isDisplaying = false;
+            var enter = Input.GetAxisRaw("Select");
 
-            dialogIndex++;
-        }
+            if (enter == 1 && !isPressed)
+            {
+                isPressed = true;
+                isDisplaying = false;
 
-        if (enter == 0) isPressed = false;
+                if (dialogIndex + 1 == dialog.Count)
+                {
+                    StartBattle();
+                    return;
+                }
+                else
+                {
+                    dialogIndex++;
+                }
+            }
 
-        if (!isDisplaying)
-        {
-            if (typing != null) StopCoroutine(typing);
-            typing = StartCoroutine(Type(container, dialog[dialogIndex], 0.05f));
-            isDisplaying = true;
+            if (enter == 0) isPressed = false;
+
+            if (!isDisplaying)
+            {
+                if (typing != null) StopCoroutine(typing);
+                typing = StartCoroutine(Type(charachterDialog, dialog[dialogIndex], 0.05f));
+                isDisplaying = true;
+            }
         }
     }
 

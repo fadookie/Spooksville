@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_StartCorner: 2
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 95}
-  m_Spacing: {x: 439.18, y: 0}
+  m_Spacing: {x: 31.5, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 3
 --- !u!1 &123967625
@@ -345,6 +345,7 @@ RectTransform:
   m_Children:
   - {fileID: 1085534751}
   - {fileID: 620343607}
+  - {fileID: 1948263108}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -619,13 +620,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &382935762
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,13 +697,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &399537367
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &412070307
 RectTransform:
   m_ObjectHideFlags: 0
@@ -850,10 +851,10 @@ RectTransform:
   m_Father: {fileID: 1333266674}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -409}
-  m_SizeDelta: {x: 1920, y: 269.1}
+  m_AnchorMin: {x: 0.34289232, y: 0}
+  m_AnchorMax: {x: 0.65952086, y: 0.24922222}
+  m_AnchoredPosition: {x: 2.5, y: -0.0012207031}
+  m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &412070308
 MonoBehaviour:
@@ -1005,13 +1006,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &604710364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,13 +1083,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &620343606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,7 +1102,7 @@ GameObject:
   - component: {fileID: 620343609}
   - component: {fileID: 620343608}
   m_Layer: 5
-  m_Name: Container
+  m_Name: Dialog Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1209,13 +1210,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!222 &738505341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1451,13 +1452,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &1085534750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,13 +1706,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &1452119491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1811,7 +1812,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 269.09998}
+  m_SizeDelta: {x: 1920, y: 280}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1513037598
 MonoBehaviour:
@@ -1919,13 +1920,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &1807591825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,13 +1997,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Weapon
+  m_Text: 
 --- !u!1 &1910403014
 GameObject:
   m_ObjectHideFlags: 0
@@ -2032,18 +2033,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27aeca516caf6584697ef69d5cdd67e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 620343608}
+  charachterDialog: {fileID: 620343608}
+  headerContainer: {fileID: 1948263109}
   centerInventoryContainer: {fileID: 0}
   inventoryContainers:
-  - {fileID: 472229145}
-  - {fileID: 604710367}
-  - {fileID: 1655775462}
-  - {fileID: 923407000}
-  - {fileID: 1807591828}
-  - {fileID: 367906852}
   - {fileID: 1361842216}
   - {fileID: 382935765}
   - {fileID: 738505340}
+  - {fileID: 923407000}
+  - {fileID: 1807591828}
+  - {fileID: 367906852}
+  - {fileID: 472229145}
+  - {fileID: 604710367}
+  - {fileID: 1655775462}
   bossHealth: 100
 --- !u!4 &1910403016
 Transform:
@@ -2151,3 +2153,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1948263107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948263108}
+  - component: {fileID: 1948263110}
+  - component: {fileID: 1948263109}
+  m_Layer: 5
+  m_Name: Header Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1948263108
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948263107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 123967629}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -110}
+  m_SizeDelta: {x: 776.7, y: 30}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1948263109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948263107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.78659195, g: 1, b: 0.3820755, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: ac8004a125d8e314492c7d9e75071987, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 91
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: WHAT WEAPON WILL YOU CHOOSE????!?!?!
+--- !u!222 &1948263110
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948263107}
+  m_CullTransparentMesh: 0

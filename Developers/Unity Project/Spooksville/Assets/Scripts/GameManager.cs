@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public float timeUntillBossBattle = 60;
     private float startTime;
+    private bool hasLoaded;
 
     private void Start()
     {
@@ -28,9 +29,13 @@ public class GameManager : MonoBehaviour
 
     private void TownTimer()
     {
-        if (Time.time - startTime > timeUntillBossBattle)
+        if (!hasLoaded)
         {
-            SceneManager.LoadScene("Boss Battle");
+            if (Time.time - startTime > timeUntillBossBattle)
+            {
+                SceneManager.LoadScene("Boss Battle");
+                hasLoaded = true;
+            }
         }
     }
 }

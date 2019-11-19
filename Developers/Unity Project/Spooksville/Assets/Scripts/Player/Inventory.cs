@@ -11,8 +11,23 @@ public abstract class Inventory
 
     private static int window = 1;
     private static int windows = 0;
+
     private static int row;
-    public static int Row
+    private static int totalRows;
+    private static int exactRow;
+    private static int ExactRow
+    {
+        get
+        {
+            return exactRow;
+        }
+
+        set
+        {
+
+        }
+    }
+    public static int ViewRow
     {
         get
         {
@@ -55,8 +70,10 @@ public abstract class Inventory
             row = value;
         }
     }
+
     private static int column;
-    public static int Column
+    private static int exactColumn;
+    public static int ViewColumn
     {
         get
         {
@@ -90,8 +107,8 @@ public abstract class Inventory
 
         if (!isPressed)
         {
-            Column += (int)x;
-            Row += (int)-y;
+            ViewColumn += (int)x;
+            ViewRow += (int)-y;
 
             UpdateView();
         }
@@ -108,6 +125,8 @@ public abstract class Inventory
 
     public static void UpdateView()
     {
+        Debug.Log(GetPreSelectionWeaponIndex());
+
         for (int i = 0; i < weapons.Count; i++)
         {
             if (i < 9)
@@ -144,8 +163,9 @@ public abstract class Inventory
 
     public static int GetPreSelectionWeaponIndex()
     {
+        //Dont RESET row / column #
         //Work on non full 9 screens
-        int index = (3 * (Row)) + (Column);
+        int index = (3 * (ViewRow)) + (ViewColumn);
         return index;
     }
 
