@@ -148,10 +148,9 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        if (AudioManager.instance.GetSound("Talking").source.isPlaying)
-        {
-            AudioManager.instance.Stop("Talking", .3f);
-        }
+        if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
+
+        AudioManager.instance.Stop("Talking", .725f);
     }
 
     private void ReadDialogue()
