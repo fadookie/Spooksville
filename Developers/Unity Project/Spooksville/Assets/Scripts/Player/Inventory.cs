@@ -12,6 +12,9 @@ public abstract class Inventory
     private static int window = 1;
     private static int windows = 0;
 
+    private static float dirX;
+    private static float dirY;
+
     private static int row;
     private static int totalRows;
     private static int exactRow;
@@ -38,13 +41,13 @@ public abstract class Inventory
         {
             if (value < 0)
             {
-                row = 0;
-
                 if (window - 1 < 1)
                 {
+                    row = 0;
                     window = 1;
                 } else
                 {
+                    row = 2;
                     window -= 1;
                 }
 
@@ -62,9 +65,15 @@ public abstract class Inventory
                 else
                 {
                     window += 1;
+                    row = 0;
                 }
 
                 return;
+            }
+
+            if (GetPreSelectionWeaponIndex() + 3 <= 8)
+            {
+                if (dirY < 0 && BattleManager.instance.inventoryContainers[GetPreSelectionWeaponIndex() + 3].text == "") return;
             }
 
             row = value;
@@ -73,7 +82,7 @@ public abstract class Inventory
 
     private static int column;
     private static int exactColumn;
-    public static int ViewColumn
+    public static int Column
     {
         get
         {
@@ -94,6 +103,11 @@ public abstract class Inventory
                 return;
             }
 
+            if (GetPreSelectionWeaponIndex() + 1 > 2)
+            {
+                if (dirX > 0 && BattleManager.instance.inventoryContainers[GetPreSelectionWeaponIndex() + 1].text == "") return;
+            }
+
             column = value;
         }
     }
@@ -102,18 +116,20 @@ public abstract class Inventory
 
     public static void InventorySelection()
     {
-        var x = Input.GetAxisRaw("Horizontal");
-        var y = Input.GetAxisRaw("Vertical");
+        Debug.Log(window + " | " + windows);
+
+        dirX = Input.GetAxisRaw("Horizontal");
+        dirY = Input.GetAxisRaw("Vertical");
 
         if (!isPressed)
         {
-            ViewColumn += (int)x;
-            ViewRow += (int)-y;
-
-            UpdateView();
+            Column += (int)dirX;
+            ViewRow += (int)-dirY;
         }
 
-        if (x != 0 || y != 0)
+        UpdateView();
+
+        if (dirX != 0 || dirY != 0)
         {
             isPressed = true;
         }
@@ -125,8 +141,6 @@ public abstract class Inventory
 
     public static void UpdateView()
     {
-        Debug.Log(GetPreSelectionWeaponIndex());
-
         for (int i = 0; i < weapons.Count; i++)
         {
             if (i < 9)
@@ -165,7 +179,7 @@ public abstract class Inventory
     {
         //Dont RESET row / column #
         //Work on non full 9 screens
-        int index = (3 * (ViewRow)) + (ViewColumn);
+        int index = (3 * (ViewRow)) + (Column);
         return index;
     }
 
@@ -173,7 +187,7 @@ public abstract class Inventory
     {
         weapons.Add(weapon);
 
-        windows = (weapons.Count / 9) + 1;
+        windows = (weapons.Count / 9);
     }
 
     public static List<Weapon> GetInventoryWeapons()
