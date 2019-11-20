@@ -18,8 +18,14 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
 
-        startTime = Time.time;
+    private void OnLevelWasLoaded(int level)
+    {
+        if (level == 1)
+        {
+            startTime = Time.time;
+        }
     }
 
     private void Update()
@@ -29,12 +35,15 @@ public class GameManager : MonoBehaviour
 
     private void TownTimer()
     {
-        if (!hasLoaded)
+        if (SceneManager.GetActiveScene().name == "Town")
         {
-            if (Time.time - startTime > timeUntillBossBattle)
+            if (!hasLoaded)
             {
-                SceneManager.LoadScene("Boss Battle");
-                hasLoaded = true;
+                if (Time.time - startTime > timeUntillBossBattle)
+                {
+                    SceneManager.LoadScene("Boss Battle");
+                    hasLoaded = true;
+                }
             }
         }
     }
