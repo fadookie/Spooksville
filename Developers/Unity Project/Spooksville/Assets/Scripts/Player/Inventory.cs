@@ -188,6 +188,7 @@ public abstract class Inventory
         weapons.Add(weapon);
 
         windows = (weapons.Count / 9);
+        if (weapons.Count % 9 != 0) windows++;
     }
 
     public static List<Weapon> GetInventoryWeapons()
