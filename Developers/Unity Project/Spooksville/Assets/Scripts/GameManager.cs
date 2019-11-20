@@ -22,10 +22,9 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        if (level == 1)
-        {
-            startTime = Time.time;
-        }
+        if (level != 1) return;
+
+        startTime = Time.time;
     }
 
     private void Update()

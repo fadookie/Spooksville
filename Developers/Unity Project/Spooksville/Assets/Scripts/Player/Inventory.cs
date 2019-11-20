@@ -116,8 +116,6 @@ public abstract class Inventory
 
     public static void InventorySelection()
     {
-        Debug.Log(window + " | " + windows);
-
         dirX = Input.GetAxisRaw("Horizontal");
         dirY = Input.GetAxisRaw("Vertical");
 
