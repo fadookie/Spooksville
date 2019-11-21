@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
@@ -10,6 +10,7 @@ public class BattleManager : MonoBehaviour
 
     [Header("Containers")]
     [SerializeField] private Text charachterDialog;
+
     [SerializeField] private Text headerContainer;
 
     private Text previousHeaderText;
@@ -25,6 +26,7 @@ public class BattleManager : MonoBehaviour
     private bool isPressed;
 
     private bool isInBattle;
+    [HideInInspector] public bool canAttack;
 
     private Coroutine typing;
 
@@ -46,9 +48,20 @@ public class BattleManager : MonoBehaviour
     }
 
     #region Fight Logic
+
+    public void Attack(Weapon weapon)
+    {
+        bossHealth -= weapon.damage;
+
+        DisplayAttackText(weapon);
+    }
+
+    #endregion Fight Logic
+
     private void StartBattle()
     {
         isInBattle = true;
+        canAttack = true;
 
         StopCoroutine(typing);
         charachterDialog.gameObject.SetActive(false);
@@ -60,15 +73,8 @@ public class BattleManager : MonoBehaviour
         Inventory.Show();
     }
 
-    public void Attack(Weapon weapon)
-    {
-        bossHealth -= weapon.damage;
-
-        DisplayAttackText("Mom was attacked by " + weapon.name);
-    }
-    #endregion
-
     #region UI Management
+
     public void DisplayHeaderText(string text)
     {
         previousHeaderText.text = charachterDialog.text;
@@ -76,30 +82,19 @@ public class BattleManager : MonoBehaviour
         charachterDialog.text = text;
     }
 
-    public void DisplayTemporaryHeaderText(string text, float time)
+    private void DisplayAttackText(Weapon weapon)
     {
-        charachterDialog.text = text;
-        StartCoroutine(SetToPreviousHeaderText(time));
-    }
-
-    private void DisplayAttackText(string text)
-    {
-        charachterDialog.text = text;
+        headerContainer.text = "Mom was attacked by a " + weapon.name;
 
         Inventory.Hide();
-        StartCoroutine(SetToPreviousHeaderText(3f));
 
-        charachterDialog.text = previousHeaderText.text;
-        Inventory.Show();
+        StartCoroutine(ResetToAttackState(weapon, .5f));
     }
 
-    private void PreviousHeaderText()
-    {
-        charachterDialog.text = previousHeaderText.text;
-    }
-    #endregion
+    #endregion UI Management
 
     #region Dialog Management
+
     private void EntranceDialog()
     {
         if (!isInBattle)
@@ -166,11 +161,22 @@ public class BattleManager : MonoBehaviour
 
         reader.Close();
     }
-    #endregion
 
-    private IEnumerator SetToPreviousHeaderText(float seconds)
+    #endregion Dialog Management
+
+    private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
+        canAttack = false;
+        Inventory.RemoveWeapon(weapon);
+        Inventory.Row = 0;
+        Inventory.Column = 0;
+
         yield return new WaitForSeconds(seconds);
-        PreviousHeaderText();
+
+        Inventory.UpdateWindow();
+        Inventory.Show();
+
+        canAttack = true;
+        headerContainer.text = "What weapon will you choose?";
     }
 }
