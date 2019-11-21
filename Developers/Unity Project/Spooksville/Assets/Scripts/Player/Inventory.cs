@@ -15,8 +15,6 @@ public abstract class Inventory
     private static float dirY;
 
     private static int row;
-    private static int totalRows;
-    private static int exactRow;
 
     public static int Row
     {

@@ -17,6 +17,11 @@ public class UITitleScreenManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!AudioManager.instance.GetSound("Title Theme").source.isPlaying) AudioManager.instance.Play("Title Theme");
+    }
+
     #region Title Screen
 
     public void OnPlayClick()
