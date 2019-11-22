@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public abstract class Inventory
 {
@@ -100,8 +101,6 @@ public abstract class Inventory
 
     public static void InventorySelection()
     {
-        Debug.Log(window + " | " + windows);
-
         dirX = Input.GetAxisRaw("Horizontal");
         dirY = Input.GetAxisRaw("Vertical");
 
@@ -110,8 +109,6 @@ public abstract class Inventory
             Column += (int)dirX;
             Row += (int)-dirY;
         }
-
-        UpdateView();
 
         if (dirX != 0 || dirY != 0)
         {
@@ -124,16 +121,18 @@ public abstract class Inventory
 
         var enter = Input.GetAxisRaw("Select");
         if (enter == 1 && BattleManager.instance.canAttack) BattleManager.instance.Attack(WeaponManager.instance.GetWeaponByName(BattleManager.instance.inventoryContainers[GetSelectedWeaponIndex()].text));
+
+        UpdateView();
     }
 
     public static void UpdateView()
     {
         for (int i = 0; i < weapons.Count; i++)
         {
+            int weaponIndex = i + (9 * (window - 1));
+
             if (i < 9)
             {
-                int weaponIndex = i + (9 * (window - 1));
-
                 if (weapons[i] != null)
                 {
                     if (weaponIndex < weapons.Count)
@@ -197,7 +196,7 @@ public abstract class Inventory
             if (text.text != "") return;
         }
 
-        window -= 1;
+        if (window != 1) window -= 1;
     }
 
     public static void Show()

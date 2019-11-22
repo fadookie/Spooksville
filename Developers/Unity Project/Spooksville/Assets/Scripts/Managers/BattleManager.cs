@@ -52,6 +52,7 @@ public class BattleManager : MonoBehaviour
     public void Attack(Weapon weapon)
     {
         bossHealth -= weapon.damage;
+        Debug.Log(weapon.damage);
 
         DisplayAttackText(weapon);
     }
@@ -168,6 +169,7 @@ public class BattleManager : MonoBehaviour
     {
         canAttack = false;
         Inventory.RemoveWeapon(weapon);
+        Inventory.UpdateView();
         Inventory.Row = 0;
         Inventory.Column = 0;
 
