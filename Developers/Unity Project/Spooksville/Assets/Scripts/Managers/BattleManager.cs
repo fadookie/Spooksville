@@ -92,8 +92,8 @@ public class BattleManager : MonoBehaviour
     {
         if (!canAttack) return;
 
-        Weapon w = Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text);
-        if (w != null) Attack(w);
+        Weapon weapon = Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text);
+        if (weapon != null) Attack(weapon);
     }
 
     public void DisplayHeaderText(string text)

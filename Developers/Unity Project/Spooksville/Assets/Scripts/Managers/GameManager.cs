@@ -20,11 +20,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnEnable()
     {
-        if (level != 1) return;
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
 
-        startTime = Time.time;
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 1) startTime = Time.time;
     }
 
     private void Update()
