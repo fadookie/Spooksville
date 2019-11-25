@@ -165,17 +165,20 @@ public class BattleManager : MonoBehaviour
 
     #endregion Dialog Management
 
+    public void OnSelect(int textSlot)
+    {
+        if (!canAttack) return;
+
+        Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
+        Debug.Log(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
+    }
+
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
         canAttack = false;
-        Inventory.RemoveWeapon(weapon);
-        Inventory.UpdateView();
-        Inventory.Row = 0;
-        Inventory.Column = 0;
 
         yield return new WaitForSeconds(seconds);
 
-        Inventory.UpdateWindow();
         Inventory.Show();
 
         canAttack = true;
