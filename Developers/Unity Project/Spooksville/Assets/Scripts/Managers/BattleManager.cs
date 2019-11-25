@@ -14,11 +14,16 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private Text headerContainer;
 
     private Text previousHeaderText;
+
+    [Header("UI Objects")]
     public Text centerInventoryContainer;
     public List<Text> inventoryContainers;
 
     [Header("Boss Settings")]
     public int bossHealth = 100;
+
+    [Header("Other")]
+    public float attackTextDuration;
 
     private List<string> dialog = new List<string>();
     private int dialogIndex;
@@ -87,7 +92,8 @@ public class BattleManager : MonoBehaviour
     {
         if (!canAttack) return;
 
-        Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
+        Weapon w = Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text);
+        if (w != null) Attack(w);
     }
 
     public void DisplayHeaderText(string text)
@@ -103,7 +109,7 @@ public class BattleManager : MonoBehaviour
 
         Inventory.Hide();
 
-        StartCoroutine(ResetToAttackState(weapon, .5f));
+        StartCoroutine(ResetToAttackState(weapon, attackTextDuration));
     }
 
     #endregion UI Management

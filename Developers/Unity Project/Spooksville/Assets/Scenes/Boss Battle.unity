@@ -2736,6 +2736,7 @@ MonoBehaviour:
   - {fileID: 604710367}
   - {fileID: 1655775462}
   bossHealth: 100
+  attackTextDuration: 3
   canAttack: 0
 --- !u!4 &1910403016
 Transform:
