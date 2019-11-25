@@ -109,17 +109,8 @@ public class DialogManager : MonoBehaviour
         {
             container.text += letter;
 
-            if (!AudioManager.instance.GetSound("Talking").source.isPlaying)
-            {
-                AudioManager.instance.Play("Talking");
-            }
-
             yield return new WaitForSeconds(typeSpeed);
         }
-
-        if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
-
-        AudioManager.instance.Stop("Talking", .725f);
 
         removeTextRoutine = StartCoroutine(RemoveText(time));
     }
