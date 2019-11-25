@@ -7,32 +7,38 @@ public abstract class Inventory
 {
     private static List<Weapon> weapons = new List<Weapon>();
 
-    private static bool isPressed;
+    private static int window;
+    public static int Window
+    {
+        get
+        {
+            return window;
+        }
 
-    private static int window = 1;
-    private static int windows = 0;
+        set
+        {
+            if (value < 0 || value > windows - 1) return;
+
+            window = value;
+        }
+    }
+    private static int windows;
 
     public static bool IsEnabled { get; private set; }
 
     public static void UpdateView()
     {
-        for (int i = 0; i < weapons.Count; i++)
+        for (int i = 0; i < 9; i++)
         {
-            int weaponIndex = i + (9 * (window - 1));
+            int weaponIndex = i + (9 * (window));
 
-            if (i < 9)
+            if (weaponIndex < weapons.Count)
             {
-                if (weapons[i] != null)
-                {
-                    if (weaponIndex < weapons.Count)
-                    {
-                        BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].name;
-                    }
-                    else
-                    {
-                        BattleManager.instance.inventoryContainers[i].text = "";
-                    }
-                }
+                BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].name;
+            }
+            else
+            {
+                BattleManager.instance.inventoryContainers[i].text = "";
             }
         }
     }
@@ -52,7 +58,7 @@ public abstract class Inventory
         weapons.Add(weapon);
 
         windows = (weapons.Count / 9);
-        if (weapons.Count % 9 != 0) windows++;
+        if (weapons.Count % 9 != 0 && weapons.Count > 9) windows++;
     }
 
     public static void RemoveWeapon(Weapon weapon)
@@ -60,7 +66,7 @@ public abstract class Inventory
         weapons.Remove(weapon);
 
         windows = (weapons.Count / 9);
-        if (weapons.Count % 9 != 0) windows++;
+        if (weapons.Count % 9 != 0 && weapons.Count > 9) windows++;
     }
 
     public static List<Weapon> GetInventoryWeapons()

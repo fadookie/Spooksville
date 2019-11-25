@@ -43,6 +43,8 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         EntranceDialog();
+
+        Debug.Log(Inventory.GetInventoryWeapons().Count);
     }
 
     #region Fight Logic
@@ -175,6 +177,9 @@ public class BattleManager : MonoBehaviour
     public void OnScroll(int direction)
     {
         if (!canAttack) return;
+
+        Inventory.Window += direction;
+        Inventory.UpdateView();
     }
 
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
