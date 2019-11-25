@@ -175,7 +175,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
-        canAttack = false;
+        canAttack = false; 
 
         yield return new WaitForSeconds(seconds);
 
