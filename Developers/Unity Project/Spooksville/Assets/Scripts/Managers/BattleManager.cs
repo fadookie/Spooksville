@@ -172,13 +172,20 @@ public class BattleManager : MonoBehaviour
         Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
     }
 
+    public void OnScroll(int direction)
+    {
+        if (!canAttack) return;
+    }
+
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
         canAttack = false;
+        Inventory.RemoveWeapon(weapon);
 
         yield return new WaitForSeconds(seconds);
 
         Inventory.Show();
+        Inventory.UpdateView();
 
         canAttack = true;
         headerContainer.text = "What weapon will you choose?";
