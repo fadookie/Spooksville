@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public abstract class Inventory
 {
     private static List<Weapon> weapons = new List<Weapon>();
 
     private static int window;
+
     public static int Window
     {
         get
@@ -22,6 +22,7 @@ public abstract class Inventory
             window = value;
         }
     }
+
     private static int windows;
 
     public static bool IsEnabled { get; private set; }
@@ -81,7 +82,6 @@ public abstract class Inventory
             if (text.text != "") return;
         }
 
-        Debug.Log("No error");
         Window -= 1;
     }
 

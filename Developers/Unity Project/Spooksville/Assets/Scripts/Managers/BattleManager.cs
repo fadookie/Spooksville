@@ -35,7 +35,7 @@ public class BattleManager : MonoBehaviour
         if (instance == null) instance = this;
 
         headerContainer.text = "";
-
+         
         ReadDialogue();
         Inventory.Hide();
     }
@@ -74,6 +74,21 @@ public class BattleManager : MonoBehaviour
     #endregion Fight Logic
 
     #region UI Management
+
+    public void OnScroll(int direction)
+    {
+        if (!canAttack) return;
+
+        Inventory.Window += direction;
+        Inventory.UpdateView();
+    }
+
+    public void OnSelect(int textSlot)
+    {
+        if (!canAttack) return;
+
+        Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
+    }
 
     public void DisplayHeaderText(string text)
     {
@@ -163,21 +178,6 @@ public class BattleManager : MonoBehaviour
     }
 
     #endregion Dialog Management
-
-    public void OnSelect(int textSlot)
-    {
-        if (!canAttack) return;
-
-        Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
-    }
-
-    public void OnScroll(int direction)
-    {
-        if (!canAttack) return;
-
-        Inventory.Window += direction;
-        Inventory.UpdateView();
-    }
 
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
