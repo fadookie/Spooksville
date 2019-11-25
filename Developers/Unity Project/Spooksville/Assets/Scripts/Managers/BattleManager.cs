@@ -43,24 +43,14 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         EntranceDialog();
-
-        Inventory.InventorySelection();
     }
 
     #region Fight Logic
 
-    public void Attack(Weapon weapon)
-    {
-        bossHealth -= weapon.damage;
-        Debug.Log(weapon.damage);
-
-        DisplayAttackText(weapon);
-    }
-
-    #endregion Fight Logic
-
     private void StartBattle()
     {
+        Inventory.UpdateView();
+
         isInBattle = true;
         canAttack = true;
 
@@ -73,6 +63,16 @@ public class BattleManager : MonoBehaviour
 
         Inventory.Show();
     }
+
+    public void Attack(Weapon weapon)
+    {
+        bossHealth -= weapon.damage;
+        Debug.Log(weapon.damage);
+
+        DisplayAttackText(weapon);
+    }
+
+    #endregion Fight Logic
 
     #region UI Management
 
@@ -170,12 +170,11 @@ public class BattleManager : MonoBehaviour
         if (!canAttack) return;
 
         Attack(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
-        Debug.Log(Inventory.GetInventoryWeapons().Find(w => w.name == inventoryContainers[textSlot].text));
     }
 
     private IEnumerator ResetToAttackState(Weapon weapon, float seconds)
     {
-        canAttack = false; 
+        canAttack = false;
 
         yield return new WaitForSeconds(seconds);
 
