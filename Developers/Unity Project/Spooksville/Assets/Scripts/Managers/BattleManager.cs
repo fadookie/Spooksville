@@ -43,8 +43,6 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         EntranceDialog();
-
-        Debug.Log(Inventory.GetInventoryWeapons().Count);
     }
 
     #region Fight Logic
@@ -69,7 +67,6 @@ public class BattleManager : MonoBehaviour
     public void Attack(Weapon weapon)
     {
         bossHealth -= weapon.damage;
-        Debug.Log(weapon.damage);
 
         DisplayAttackText(weapon);
     }
@@ -186,10 +183,12 @@ public class BattleManager : MonoBehaviour
     {
         canAttack = false;
         Inventory.RemoveWeapon(weapon);
+        Inventory.UpdateView();
 
         yield return new WaitForSeconds(seconds);
 
         Inventory.Show();
+        Inventory.UpdateWindow();
         Inventory.UpdateView();
 
         canAttack = true;

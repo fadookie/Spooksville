@@ -81,7 +81,8 @@ public abstract class Inventory
             if (text.text != "") return;
         }
 
-        if (window != 1) window -= 1;
+        Debug.Log("No error");
+        Window -= 1;
     }
 
     public static void Show()
