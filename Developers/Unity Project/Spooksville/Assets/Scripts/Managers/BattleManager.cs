@@ -45,6 +45,7 @@ public class BattleManager : MonoBehaviour
         Inventory.Hide();
 
         StartBattle();
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void Update()

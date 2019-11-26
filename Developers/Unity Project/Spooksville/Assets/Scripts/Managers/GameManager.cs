@@ -7,8 +7,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public float timeUntillBossBattle = 60;
-    private float startTime;
+    [HideInInspector] public bool IsPaused { get; private set; }
+
+    [SerializeField] private float timeUntillBossBattle = 60;
+    private float time;
+
     private bool hasLoaded;
 
     private void Start()
@@ -19,6 +22,13 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1) TownTimer();
+    }
+
+    #region Scene Management
 
     private void OnEnable()
     {
@@ -32,26 +42,48 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == 1) startTime = Time.time;
+
     }
 
-    private void Update()
-    {
-        TownTimer();
-    }
+    #endregion
 
     private void TownTimer()
     {
-        if (SceneManager.GetActiveScene().name == "Town")
+        if (!IsPaused)
         {
-            if (!hasLoaded)
+            time += Time.deltaTime;
+
+            if (SceneManager.GetActiveScene().name == "Town")
             {
-                if (Time.time - startTime > timeUntillBossBattle)
+                if (!hasLoaded)
                 {
-                    SceneManager.LoadScene(4);
-                    hasLoaded = true;
+                    if (time > timeUntillBossBattle)
+                    {
+                        SceneManager.LoadScene(4);
+                        hasLoaded = true;
+                    }
                 }
             }
         }
     }
+
+    #region Pause Menu
+
+    public void PauseGame()
+    {
+        if (IsPaused) return;
+
+        IsPaused = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void ResumeGame()
+    {
+        if (!IsPaused) return;
+
+        IsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    #endregion
 }
