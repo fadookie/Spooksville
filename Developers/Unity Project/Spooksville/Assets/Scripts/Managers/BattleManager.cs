@@ -43,11 +43,16 @@ public class BattleManager : MonoBehaviour
 
         ReadDialogue();
         Inventory.Hide();
+
+        StartBattle();
     }
 
     private void Update()
     {
-        EntranceDialog();
+        if (isInBattle)
+        {
+            if (!AudioManager.instance.GetSound("Boss Theme").source.isPlaying) AudioManager.instance.Play("Boss Theme");
+        }
     }
 
     #region Fight Logic
@@ -59,7 +64,6 @@ public class BattleManager : MonoBehaviour
         isInBattle = true;
         canAttack = true;
 
-        StopCoroutine(typing);
         charachterDialog.gameObject.SetActive(false);
         GameObject.Find("Text Canvas").transform.Find("Enter to Continue").gameObject.SetActive(false);
         if (AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Stop("Talking", .3f);
@@ -164,7 +168,7 @@ public class BattleManager : MonoBehaviour
 
     private void ReadDialogue()
     {
-        string entranceDialog = "Assets/Utility/Dialog/BattleEntrace.txt";
+        string entranceDialog = "Assets/Utility/Dialog/BattleEntrance.txt";
         string battleDialog = "Assets/Utility/Dialog/Mom.txt";
 
         StreamReader reader = new StreamReader(entranceDialog);
@@ -194,12 +198,22 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
 
-        StartCoroutine(Type(headerContainer, entranceDialog[(new System.Random()).Next(entranceDialog.Count)], 3f));
+        string txt = battleDialog[(new System.Random()).Next(battleDialog.Count)];
+        var time = 0f;
+
+        float messageSpeed = 0.02f;
+
+        foreach (char c in txt.ToCharArray()) time += messageSpeed;
+
+        StartCoroutine(Type(headerContainer, txt, messageSpeed));
+
+        yield return new WaitForSeconds(time + 2f);
 
         Inventory.Show();
         Inventory.UpdateWindow();
         Inventory.UpdateView();
 
         canAttack = true;
+        headerContainer.text = "What will you use against your Mom?";
     }
 }

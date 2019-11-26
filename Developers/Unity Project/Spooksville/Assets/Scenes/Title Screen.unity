@@ -1744,8 +1744,8 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: Boss Battle
-    clip: {fileID: 0}
+  - name: Boss Theme
+    clip: {fileID: 8300000, guid: 6391cdbf19f441b4da8fff5f5420c65e, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}

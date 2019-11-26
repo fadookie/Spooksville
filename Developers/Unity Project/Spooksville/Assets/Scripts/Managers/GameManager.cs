@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             {
                 if (Time.time - startTime > timeUntillBossBattle)
                 {
-                    SceneManager.LoadScene("Boss Battle");
+                    SceneManager.LoadScene(4);
                     hasLoaded = true;
                 }
             }

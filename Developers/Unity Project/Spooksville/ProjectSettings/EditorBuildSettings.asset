@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Boss Battle.unity
     guid: 07878c8e662bacb499908a4968b88fb3
+  - enabled: 1
+    path: Assets/Scenes/CutScene 1.unity
+    guid: e5f064454e6db2b428146d10cdfd2a16
+  - enabled: 1
+    path: Assets/Scenes/CutScene 2.unity
+    guid: 2356763fd270c534dbebc1229d72cb94
   m_configObjects: {}

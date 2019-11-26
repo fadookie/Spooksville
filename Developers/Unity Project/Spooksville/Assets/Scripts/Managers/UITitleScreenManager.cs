@@ -27,7 +27,7 @@ public class UITitleScreenManager : MonoBehaviour
     public void OnPlayClick()
     {
         if (AudioManager.instance.GetSound("Title Theme").source.isPlaying) AudioManager.instance.Stop("Title Theme");
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     public void OnAboutClick()

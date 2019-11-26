@@ -48,6 +48,22 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(VolumeFade(s, s.source, 0f, fadeLength));
     }
 
+    public void StopAll()
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.source.isPlaying) StartCoroutine(VolumeFade(s, s.source, 0f, 0.05f));
+        }
+    }
+
+    public void StopAll(float fadeLength)
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.source.isPlaying) StartCoroutine(VolumeFade(s, s.source, 0f, fadeLength));
+        }
+    }
+
     private IEnumerator VolumeFade(Sound sound, AudioSource audioSource, float endVolume, float fadeLength)
     {
         var startVolume = audioSource.volume;
