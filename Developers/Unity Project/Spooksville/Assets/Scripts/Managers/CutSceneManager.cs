@@ -10,6 +10,10 @@ public class CutSceneManager : MonoBehaviour
     private List<string> dialogCSOne;
     private List<string> dialogCSTwo;
 
+    [Header("Colors")]
+    public Color playerTextColor;
+    public Color momTextColor;
+
     private float time = 3f;
 
     private float duration;
@@ -87,6 +91,14 @@ public class CutSceneManager : MonoBehaviour
     private IEnumerator Type(Text textContainer, string text, float typeTime)
     {
         textContainer.text = "";
+
+        if (dialogIndex % 2 == 0)
+        {
+            textContainer.color = playerTextColor;
+        } else
+        {
+            textContainer.color = momTextColor;
+        }
 
         foreach (char letter in text.ToCharArray())
         {
