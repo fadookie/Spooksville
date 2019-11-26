@@ -9,14 +9,13 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;
 
     [Header("Containers")]
-    [SerializeField] private Text charachterDialog;
+    public Text charachterDialog;
 
-    [SerializeField] private Text headerContainer;
-
-    private Text previousHeaderText;
+    public Text headerContainer;
 
     [Header("UI Objects")]
     public Text centerInventoryContainer;
+
     public List<Text> inventoryContainers;
 
     [Header("Boss Settings")]
@@ -25,7 +24,8 @@ public class BattleManager : MonoBehaviour
     [Header("Other")]
     public float attackTextDuration;
 
-    private List<string> dialog = new List<string>();
+    private List<string> entranceDialog = new List<string>();
+    private List<string> battleDialog = new List<string>();
     private int dialogIndex;
     private bool isDisplaying;
     private bool isPressed;
@@ -40,7 +40,7 @@ public class BattleManager : MonoBehaviour
         if (instance == null) instance = this;
 
         headerContainer.text = "";
-         
+
         ReadDialogue();
         Inventory.Hide();
     }
@@ -96,13 +96,6 @@ public class BattleManager : MonoBehaviour
         if (weapon != null) Attack(weapon);
     }
 
-    public void DisplayHeaderText(string text)
-    {
-        previousHeaderText.text = charachterDialog.text;
-
-        charachterDialog.text = text;
-    }
-
     private void DisplayAttackText(Weapon weapon)
     {
         headerContainer.text = "Mom was attacked by a " + weapon.name;
@@ -127,7 +120,7 @@ public class BattleManager : MonoBehaviour
                 isPressed = true;
                 isDisplaying = false;
 
-                if (dialogIndex + 1 == dialog.Count)
+                if (dialogIndex + 1 == entranceDialog.Count)
                 {
                     StartBattle();
                     return;
@@ -143,7 +136,7 @@ public class BattleManager : MonoBehaviour
             if (!isDisplaying)
             {
                 if (typing != null) StopCoroutine(typing);
-                typing = StartCoroutine(Type(charachterDialog, dialog[dialogIndex], 0.05f));
+                typing = StartCoroutine(Type(charachterDialog, entranceDialog[dialogIndex], 0.05f));
                 isDisplaying = true;
             }
         }
@@ -171,13 +164,21 @@ public class BattleManager : MonoBehaviour
 
     private void ReadDialogue()
     {
-        string path = "Assets/Utility/Dialog/Battle.txt";
+        string entranceDialog = "Assets/Utility/Dialog/BattleEntrace.txt";
+        string battleDialog = "Assets/Utility/Dialog/Mom.txt";
 
-        StreamReader reader = new StreamReader(path);
+        StreamReader reader = new StreamReader(entranceDialog);
 
         while (!reader.EndOfStream)
         {
-            dialog.Add(reader.ReadLine());
+            this.entranceDialog.Add(reader.ReadLine());
+        }
+
+        reader = new StreamReader(battleDialog);
+
+        while (!reader.EndOfStream)
+        {
+            this.battleDialog.Add(reader.ReadLine());
         }
 
         reader.Close();
@@ -193,11 +194,12 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
 
+        StartCoroutine(Type(headerContainer, entranceDialog[(new System.Random()).Next(entranceDialog.Count)], 3f));
+
         Inventory.Show();
         Inventory.UpdateWindow();
         Inventory.UpdateView();
 
         canAttack = true;
-        headerContainer.text = "What weapon will you choose?";
     }
 }
