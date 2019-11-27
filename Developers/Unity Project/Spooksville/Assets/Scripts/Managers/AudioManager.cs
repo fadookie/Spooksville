@@ -36,10 +36,17 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
     }
 
+    public void Play(string name, bool isLooping)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.Play();
+        if (isLooping) s.source.loop = true;
+    }
+
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        StartCoroutine(VolumeFade(s, s.source, 0f, .4f));
+        StartCoroutine(VolumeFade(s, s.source, 0f, 0.05f));
     }
 
     public void Stop(string name, float fadeLength)
@@ -61,6 +68,34 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds)
         {
             if (s.source.isPlaying) StartCoroutine(VolumeFade(s, s.source, 0f, fadeLength));
+        }
+    }
+
+    public void Pause(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.Pause();
+    }
+
+    public void UnPause(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.UnPause();
+    }
+
+    public void PauseAll()
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source.Pause();
+        }
+    }
+
+    public void UnPauseAll()
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source.UnPause();
         }
     }
 

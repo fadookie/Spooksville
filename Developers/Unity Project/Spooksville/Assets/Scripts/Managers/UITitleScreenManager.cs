@@ -37,6 +37,11 @@ public class UITitleScreenManager : MonoBehaviour
         LoadScreen("About");
     }
 
+    public void OnQuitClick()
+    {
+        Application.Quit();
+    }
+
     #endregion Title Screen
 
     #region About Screen

@@ -21,6 +21,8 @@ public class CutSceneManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.instance.StopAll();
+
         dialogCSOne = new List<string>();
         dialogCSTwo = new List<string>();
         ReadDialog();

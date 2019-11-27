@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-
+        if (scene.buildIndex == 1) AudioManager.instance.Play("Town Theme", true);
     }
 
     #endregion
@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
     {
         if (IsPaused) return;
 
+        AudioManager.instance.PauseAll();
+
         IsPaused = true;
         Cursor.lockState = CursorLockMode.None;
     }
@@ -80,6 +82,8 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         if (!IsPaused) return;
+
+        AudioManager.instance.UnPauseAll();
 
         IsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
