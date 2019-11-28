@@ -170,11 +170,11 @@ public class BattleManager : MonoBehaviour
     {
         TextAsset txt = (TextAsset)Resources.Load("BattleEntrance");
         string fixedText = txt.text.Replace(System.Environment.NewLine, "");
-        foreach (string log in fixedText.Split('/')) this.entranceDialog.Add(log);
+        foreach (string log in fixedText.Split('/')) entranceDialog.Add(log);
 
-        txt = (TextAsset)Resources.Load("CutScene 2 Dialog");
+        txt = (TextAsset)Resources.Load("Mom");
         fixedText = txt.text.Replace(System.Environment.NewLine, "");
-        foreach (string log in fixedText.Split('/')) this.battleDialog.Add(log);
+        foreach (string log in fixedText.Split('/')) battleDialog.Add(log);
     }
 
     #endregion Dialog Management

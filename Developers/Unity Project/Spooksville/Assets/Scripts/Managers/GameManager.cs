@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool IsPaused { get; private set; }
 
-    [SerializeField] private float timeUntillBossBattle = 60;
+    [SerializeField] private float timeUntillBossBattle;
     private float time;
 
     private bool hasLoaded;

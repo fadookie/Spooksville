@@ -21,6 +21,9 @@ public class CutSceneManager : MonoBehaviour
     private float duration;
     private int dialogIndex;
 
+    private int buildIndex;
+    private bool isLoading;
+
     private void Start()
     {
         AudioManager.instance.StopAll();
@@ -40,6 +43,15 @@ public class CutSceneManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && !isLoading)
+        {
+            isLoading = true;
+            FadeAnimation.instance.LoadScene(buildIndex);
+        }
+    }
+
     private void ReadDialog()
     {
         TextAsset txt = (TextAsset)Resources.Load("CutScene 1 Dialog");
@@ -53,6 +65,8 @@ public class CutSceneManager : MonoBehaviour
 
     private IEnumerator BeginSequence(List<string> dialog, int buildScene)
     {
+        buildIndex = buildScene;
+
         float typeTime = 0.05f;
 
         Text container = canvas.gameObject.transform.Find("Text").gameObject.GetComponent<Text>();
