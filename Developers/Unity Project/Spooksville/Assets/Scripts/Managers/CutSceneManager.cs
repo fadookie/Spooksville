@@ -7,6 +7,8 @@ using System.IO;
 
 public class CutSceneManager : MonoBehaviour
 {
+    public Canvas canvas;
+
     private List<string> dialogCSOne;
     private List<string> dialogCSTwo;
 
@@ -65,7 +67,7 @@ public class CutSceneManager : MonoBehaviour
     {
         float typeTime = 0.05f;
 
-        Text container = GameObject.Find("Canvas").transform.Find("Text").gameObject.GetComponent<Text>();
+        Text container = canvas.gameObject.transform.Find("Text").gameObject.GetComponent<Text>();
 
         foreach (string txt in dialog)
         {

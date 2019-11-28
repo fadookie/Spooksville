@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4472e3a9b5854641998abd07e2c57d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
   playerTextColor: {r: 1, g: 0.97605914, b: 0.6179246, a: 1}
   momTextColor: {r: 1, g: 0.2971698, b: 0.38026398, a: 1}
