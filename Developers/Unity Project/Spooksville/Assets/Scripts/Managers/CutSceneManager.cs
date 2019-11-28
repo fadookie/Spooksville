@@ -54,7 +54,6 @@ public class CutSceneManager : MonoBehaviour
 
         reader = new StreamReader(dialogTwo);
 
-
         while (!reader.EndOfStream)
         {
             dialogCSTwo.Add(reader.ReadLine());
@@ -89,7 +88,7 @@ public class CutSceneManager : MonoBehaviour
             dialogIndex++;
         }
 
-        SceneManager.LoadScene(buildScene);
+        FadeAnimation.instance.LoadScene(buildScene);
     }
 
     private IEnumerator Type(Text textContainer, string text, float typeTime)

@@ -55,13 +55,10 @@ public class GameManager : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name == "Town")
             {
-                if (!hasLoaded)
+                if (time > timeUntillBossBattle && !hasLoaded)
                 {
-                    if (time > timeUntillBossBattle)
-                    {
-                        SceneManager.LoadScene(4);
-                        hasLoaded = true;
-                    }
+                    FadeAnimation.instance.LoadScene(4);
+                    hasLoaded = true;
                 }
             }
         }
