@@ -46,14 +46,13 @@ public class BattleManager : MonoBehaviour
 
         StartBattle();
         Cursor.lockState = CursorLockMode.None;
+
+        AudioManager.instance.Play("Boss Theme", true);
     }
 
     private void Update()
     {
-        if (isInBattle)
-        {
-            if (!AudioManager.instance.GetSound("Boss Theme").source.isPlaying) AudioManager.instance.Play("Boss Theme");
-        }
+
     }
 
     #region Fight Logic
@@ -169,24 +168,13 @@ public class BattleManager : MonoBehaviour
 
     private void ReadDialogue()
     {
-        string entranceDialog = "Assets/Utility/Dialog/BattleEntrance.txt";
-        string battleDialog = "Assets/Utility/Dialog/Mom.txt";
+        TextAsset txt = (TextAsset)Resources.Load("BattleEntrance");
+        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) this.entranceDialog.Add(log);
 
-        StreamReader reader = new StreamReader(entranceDialog);
-
-        while (!reader.EndOfStream)
-        {
-            this.entranceDialog.Add(reader.ReadLine());
-        }
-
-        reader = new StreamReader(battleDialog);
-
-        while (!reader.EndOfStream)
-        {
-            this.battleDialog.Add(reader.ReadLine());
-        }
-
-        reader.Close();
+        txt = (TextAsset)Resources.Load("CutScene 2 Dialog");
+        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) this.battleDialog.Add(log);
     }
 
     #endregion Dialog Management

@@ -42,24 +42,13 @@ public class CutSceneManager : MonoBehaviour
 
     private void ReadDialog()
     {
-        string dialog = "Assets/Utility/Dialog/CutScene 1 Dialog.txt";
-        string dialogTwo = "Assets/Utility/Dialog/CutScene 2 Dialog.txt";
+        TextAsset txt = (TextAsset)Resources.Load("CutScene 1 Dialog");
+        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) dialogCSOne.Add(log);
 
-        StreamReader reader = new StreamReader(dialog);
-
-        while (!reader.EndOfStream)
-        {
-            dialogCSOne.Add(reader.ReadLine());
-        }
-
-        reader = new StreamReader(dialogTwo);
-
-        while (!reader.EndOfStream)
-        {
-            dialogCSTwo.Add(reader.ReadLine());
-        }
-
-        reader.Close();
+        txt = (TextAsset)Resources.Load("CutScene 2 Dialog");
+        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) dialogCSTwo.Add(log);
     }
 
     private IEnumerator BeginSequence(List<string> dialog, int buildScene)

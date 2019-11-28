@@ -72,16 +72,9 @@ public class DialogManager : MonoBehaviour
 
     private void InitCollectionMessages()
     {
-        string path = "Assets/Utility/Dialog/Town.txt";
-
-        StreamReader reader = new StreamReader(path);
-
-        string text = reader.ReadToEnd();
-        string[] messages = text.Split('/');
-
-        collectionMessages.AddRange(messages);
-
-        reader.Close();
+        TextAsset txt = (TextAsset)Resources.Load("Town");
+        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) collectionMessages.Add(log);
     }
 
     private IEnumerator RemoveText(float time)
