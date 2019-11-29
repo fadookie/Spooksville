@@ -11,8 +11,10 @@ public class CutSceneManager : MonoBehaviour
 
     private List<string> dialogCSOne;
     private List<string> dialogCSTwo;
+    private List<string> dialogCSThree;
 
     [Header("Colors")]
+    public Color staticTextColor;
     public Color playerTextColor;
     public Color momTextColor;
 
@@ -24,12 +26,19 @@ public class CutSceneManager : MonoBehaviour
     private int buildIndex;
     private bool isLoading;
 
+    private enum ColorMode
+    {
+        Alternating, Static
+    }
+
     private void Start()
     {
         AudioManager.instance.StopAll();
 
         dialogCSOne = new List<string>();
         dialogCSTwo = new List<string>();
+        dialogCSThree = new List<string>();
+
         ReadDialog();
 
         if (SceneManager.GetActiveScene().name == "CutScene 1")
@@ -40,6 +49,12 @@ public class CutSceneManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "CutScene 2")
         {
             StartCoroutine(BeginSequence(dialogCSTwo, 2));
+        }
+
+        if (SceneManager.GetActiveScene().name == "CutScene 3")
+        {
+            StartCoroutine(BeginSequence(dialogCSThree, 0));
+            GameManager.instance.ResetGame();
         }
     }
 
@@ -61,6 +76,10 @@ public class CutSceneManager : MonoBehaviour
         txt = (TextAsset)Resources.Load("CutScene 2 Dialog");
         fixedText = txt.text.Replace(System.Environment.NewLine, "");
         foreach (string log in fixedText.Split('/')) dialogCSTwo.Add(log);
+
+        txt = (TextAsset)Resources.Load("CutScene 3 Dialog");
+        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        foreach (string log in fixedText.Split('/')) dialogCSThree.Add(log);
     }
 
     private IEnumerator BeginSequence(List<string> dialog, int buildScene)
@@ -68,6 +87,7 @@ public class CutSceneManager : MonoBehaviour
         buildIndex = buildScene;
 
         float typeTime = 0.05f;
+        int index = 0;
 
         Text container = canvas.gameObject.transform.Find("Text").gameObject.GetComponent<Text>();
 
@@ -79,13 +99,23 @@ public class CutSceneManager : MonoBehaviour
             {
                 float wait = typeTime;
 
-                if (letter == '!' || letter == '.' || letter == '?') wait = 1f;
-                if (letter == ',') wait = 0.65f;
+                if (index != txt.Length - 1)
+                {
+                    if (letter == '!' || letter == '.' || letter == '?') wait = 1f;
+                    if (letter == ',') wait = 0.65f;
+                }
 
                 duration += wait;
+                index++;
             }
 
-            StartCoroutine(Type(container, dialog[dialogIndex], typeTime));
+            if (buildScene == 5)
+            {
+                StartCoroutine(Type(container, dialog[dialogIndex], typeTime, ColorMode.Static));
+            } else
+            {
+                StartCoroutine(Type(container, dialog[dialogIndex], typeTime, ColorMode.Alternating));
+            }
 
             yield return new WaitForSeconds(duration + time);
             dialogIndex++;
@@ -94,16 +124,25 @@ public class CutSceneManager : MonoBehaviour
         FadeAnimation.instance.LoadScene(buildScene);
     }
 
-    private IEnumerator Type(Text textContainer, string text, float typeTime)
+    private IEnumerator Type(Text textContainer, string text, float typeTime, ColorMode mode)
     {
         textContainer.text = "";
 
-        if (dialogIndex % 2 == 0)
+        if (mode == ColorMode.Alternating)
         {
-            textContainer.color = playerTextColor;
-        } else
+            if (dialogIndex % 2 == 0)
+            {
+                textContainer.color = playerTextColor;
+            }
+            else
+            {
+                textContainer.color = momTextColor;
+            }
+        }
+
+        if (mode == ColorMode.Static)
         {
-            textContainer.color = momTextColor;
+            textContainer.color = staticTextColor;
         }
 
         foreach (char letter in text.ToCharArray())
@@ -114,6 +153,8 @@ public class CutSceneManager : MonoBehaviour
 
             if (letter == '!' || letter == '.' || letter == '?') wait = 1f;
             if (letter == ',') wait = 0.65f;
+
+            AudioManager.instance.PlayIfNotPlaying("Talking");
 
             yield return new WaitForSeconds(wait);
         }

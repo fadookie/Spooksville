@@ -66,6 +66,11 @@ public abstract class Inventory
     {
         weapons.Remove(weapon);
 
+        if (weapons.Count == 0 && BattleManager.instance.BossHealth != 0)
+        {
+            PauseMenu.TriggerGameOver("You have no more candy left! What a shame...");
+        }
+
         windows = (weapons.Count / 9);
         if (weapons.Count % 9 != 0 && weapons.Count > 9) windows++;
     }

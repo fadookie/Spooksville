@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+  staticTextColor: {r: 0.6876073, g: 0, b: 1, a: 1}
   playerTextColor: {r: 1, g: 0.97605914, b: 0.6179246, a: 1}
   momTextColor: {r: 1, g: 0.2971698, b: 0.38026398, a: 1}

@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float timeUntillBossBattle;
     private float time;
-
     private bool hasLoaded;
+
+    private int timesPlayed;
 
     private void Start()
     {
@@ -87,4 +88,14 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public void ResetGame()
+    {
+        //Reset town
+        hasLoaded = false;
+        time = 0;
+
+        //Update stats
+        timesPlayed++;
+    }
 }

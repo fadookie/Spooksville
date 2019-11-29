@@ -8,18 +8,32 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
 
-    [Header("Containers")]
-    public Text charachterDialog;
+    [Header("Boss Settings")]
+    [SerializeField] private int bossHealth;
+    public int BossHealth
+    {
+        get
+        {
+            return bossHealth;
+        }
 
-    public Text headerContainer;
+        set
+        {
+            if (value <= 0)
+            {
+                bossHealth = 0;
+                EndBattle();
+                return;
+            }
+
+            bossHealth = value;
+        }
+    }
 
     [Header("UI Objects")]
-    public Text centerInventoryContainer;
-
+    public Text headerContainer;
     public List<Text> inventoryContainers;
-
-    [Header("Boss Settings")]
-    public int bossHealth = 100;
+    public Text bossHP;
 
     [Header("Other")]
     public float attackTextDuration;
@@ -30,7 +44,6 @@ public class BattleManager : MonoBehaviour
     private bool isDisplaying;
     private bool isPressed;
 
-    private bool isInBattle;
     [HideInInspector] public bool canAttack;
 
     private Coroutine typing;
@@ -46,8 +59,6 @@ public class BattleManager : MonoBehaviour
 
         StartBattle();
         Cursor.lockState = CursorLockMode.None;
-
-        AudioManager.instance.Play("Boss Theme", true);
     }
 
     private void Update()
@@ -59,23 +70,29 @@ public class BattleManager : MonoBehaviour
 
     private void StartBattle()
     {
+        CheckInventory();
+
+        bossHP.text = "Mom HP ♥ " + bossHealth.ToString();
+
         Inventory.UpdateView();
 
-        isInBattle = true;
         canAttack = true;
-
-        charachterDialog.gameObject.SetActive(false);
-        GameObject.Find("Text Canvas").transform.Find("Enter to Continue").gameObject.SetActive(false);
-        if (AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Stop("Talking", .3f);
 
         headerContainer.text = "What weapon will you choose?";
 
         Inventory.Show();
     }
 
+    private void EndBattle()
+    {
+        FadeAnimation.instance.LoadScene(5);
+    }
+
     public void Attack(Weapon weapon)
     {
-        bossHealth -= weapon.damage;
+        BossHealth -= weapon.damage;
+
+        bossHP.text = "Mom HP ♥ " + bossHealth.ToString();
 
         DisplayAttackText(weapon);
     }
@@ -113,39 +130,6 @@ public class BattleManager : MonoBehaviour
 
     #region Dialog Management
 
-    private void EntranceDialog()
-    {
-        if (!isInBattle)
-        {
-            var enter = Input.GetAxisRaw("Select");
-
-            if (enter == 1 && !isPressed)
-            {
-                isPressed = true;
-                isDisplaying = false;
-
-                if (dialogIndex + 1 == entranceDialog.Count)
-                {
-                    StartBattle();
-                    return;
-                }
-                else
-                {
-                    dialogIndex++;
-                }
-            }
-
-            if (enter == 0) isPressed = false;
-
-            if (!isDisplaying)
-            {
-                if (typing != null) StopCoroutine(typing);
-                typing = StartCoroutine(Type(charachterDialog, entranceDialog[dialogIndex], 0.05f));
-                isDisplaying = true;
-            }
-        }
-    }
-
     public IEnumerator Type(Text textContainer, string text, float time)
     {
         textContainer.text = "";
@@ -163,7 +147,7 @@ public class BattleManager : MonoBehaviour
 
         if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
 
-        AudioManager.instance.Stop("Talking", .725f);
+        AudioManager.instance.Stop("Talking", 0.05f);
     }
 
     private void ReadDialogue()
@@ -204,5 +188,16 @@ public class BattleManager : MonoBehaviour
 
         canAttack = true;
         headerContainer.text = "What will you use against your Mom?";
+    }
+
+    private void CheckInventory()
+    {
+        if (Inventory.GetInventoryWeapons().Count == 0)
+        {
+            PauseMenu.TriggerGameOver("You had no candy to begin with!");
+        } else
+        {
+            AudioManager.instance.Play("Boss Theme", true);
+        }
     }
 }
