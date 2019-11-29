@@ -32,7 +32,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            if (GameObject.Find("Game Over Screen").gameObject.activeInHierarchy) return;
+            if (gameOver.gameObject.activeInHierarchy) return;
         }
 
         GameManager.instance.PauseGame();
@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
+            FadeAnimation.instance.FadeInAnimation();
             gameOver.SetActive(true);
             gameOver.transform.Find("Message").GetComponent<Text>().text = message;
             AudioManager.instance.StopAll();
@@ -55,6 +56,8 @@ public class PauseMenu : MonoBehaviour
     public void OnResume()
     {
         GameManager.instance.ResumeGame();
+
+        if (SceneManager.GetActiveScene().buildIndex == 2) Cursor.lockState = CursorLockMode.None;
 
         menu.gameObject.SetActive(false);
     }

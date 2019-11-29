@@ -33,6 +33,8 @@ public class CutSceneManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         AudioManager.instance.StopAll();
 
         dialogCSOne = new List<string>();

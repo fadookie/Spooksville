@@ -2312,11 +2312,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1408504004}
-    - target: {fileID: 7659707595856518853, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnQuitGame
-      objectReference: {fileID: 0}
     - target: {fileID: 7659707596093534263, guid: bb627219f16bc1a4bb01d81e706e85fd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2427,56 +2422,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pause Menu
       objectReference: {fileID: 0}
-    - target: {fileID: 7659707596597451331, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596597451331, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596597451331, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596597451331, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596699135436, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596699135436, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596699135436, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659707596699135436, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7659707596759436264, guid: bb627219f16bc1a4bb01d81e706e85fd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1408504004}
-    - target: {fileID: 7659707596759436264, guid: bb627219f16bc1a4bb01d81e706e85fd,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnResume
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb627219f16bc1a4bb01d81e706e85fd, type: 3}
 --- !u!223 &1383431652 stripped

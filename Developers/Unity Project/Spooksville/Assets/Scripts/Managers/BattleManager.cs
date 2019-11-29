@@ -194,7 +194,7 @@ public class BattleManager : MonoBehaviour
     {
         if (Inventory.GetInventoryWeapons().Count == 0)
         {
-            PauseMenu.TriggerGameOver("You had no candy to begin with!");
+            PauseMenu.TriggerGameOver("You got no candy from trick or treating!");
         } else
         {
             AudioManager.instance.Play("Boss Theme", true);
