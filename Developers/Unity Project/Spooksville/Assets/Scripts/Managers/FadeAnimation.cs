@@ -39,13 +39,11 @@ public class FadeAnimation : MonoBehaviour
     public void LoadScene(int sceneIndex)
     {
         scene = sceneIndex;
-        Debug.Log("Scene was loaded");
         anim.SetTrigger("FadeOut");
     }
 
     public void FadeInAnimation()
     {
-        //IMplement raw version
         anim.SetTrigger("FadeInRaw");
     }
 

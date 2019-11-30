@@ -41,18 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environment
+    uniqueID: 1523671563
+    locked: 0
   - name: Ground
     uniqueID: 153666601
     locked: 0
-  - name: Environment
-    uniqueID: 1523671563
+  - name: House
+    uniqueID: 2743718693
     locked: 0
   - name: Actors
     uniqueID: 824104887
     locked: 0
   - name: Scene Objects
     uniqueID: 2291005051
-    locked: 0
-  - name: House
-    uniqueID: 2743718693
     locked: 0

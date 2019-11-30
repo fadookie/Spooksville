@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
+        Cursor.lockState = CursorLockMode.None;
+
         //Reset town
         hasLoaded = false;
         time = 0;
