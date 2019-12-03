@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00133bd07918fb24faf4021136dd055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeUntillBossBattle: 5
+  timeUntillBossBattle: 60
 --- !u!4 &244395726
 Transform:
   m_ObjectHideFlags: 0
