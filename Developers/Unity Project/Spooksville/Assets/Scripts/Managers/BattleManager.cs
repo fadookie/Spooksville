@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
 
     [Header("Boss Settings")]
     [SerializeField] private int bossHealth;
+    private int totalBossHealth;
+
     public int BossHealth
     {
         get
@@ -30,26 +32,41 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    [Header("Text Objects")]
     [Header("UI Objects")]
     public Text headerContainer;
     public List<Text> inventoryContainers;
     public Text bossHP;
+    public Text candyAmount;
+
+    [Header("Animated Objects")]
+    public Image mom;
+    public Image player;
+    public Image background;
+
+    private bool hasTriggeredHalftimeAnimations;
 
     [Header("Other")]
     public float attackTextDuration;
 
-    private List<string> entranceDialog = new List<string>();
-    private List<string> battleDialog = new List<string>();
-    private int dialogIndex;
-    private bool isDisplaying;
-    private bool isPressed;
+    private List<string> entranceDialog;
+    private List<string> battleDialog;
 
     [HideInInspector] public bool canAttack;
 
-    private Coroutine typing;
+    [HideInInspector] public GameObject leftArrow;
+    [HideInInspector] public GameObject rightArrow;
+
+    private bool isEndingBattle;
+    private Coroutine attackResetState;
 
     private void Start()
     {
+        totalBossHealth = bossHealth;
+
+        leftArrow = GameObject.Find("Canvas UI").transform.Find("Down Scroll").gameObject;
+        rightArrow = GameObject.Find("Canvas UI").transform.Find("Up Scroll").gameObject;
+
         if (instance == null) instance = this;
 
         headerContainer.text = "";
@@ -63,7 +80,39 @@ public class BattleManager : MonoBehaviour
 
     private void Update()
     {
+        if (bossHealth <= totalBossHealth / 2 && !hasTriggeredHalftimeAnimations)
+        {
+            hasTriggeredHalftimeAnimations = true;
 
+            background.gameObject.GetComponent<Animator>().SetTrigger("Activate");
+        }
+
+        #region Inventory Arrow Display
+        if (!Inventory.IsEnabled)
+        {
+            leftArrow.SetActive(false);
+            rightArrow.SetActive(false);
+            return;
+        }
+
+        if (Inventory.windows == 0)
+        {
+            leftArrow.SetActive(false);
+            rightArrow.SetActive(false);
+        } else if (Inventory.Window == 0)
+        {
+            leftArrow.SetActive(false);
+            rightArrow.SetActive(true);
+        } else if (Inventory.Window == Inventory.windows - 1)
+        {
+            leftArrow.SetActive(true);
+            rightArrow.SetActive(false);
+        } else
+        {
+            leftArrow.SetActive(true);
+            rightArrow.SetActive(true);
+        }
+        #endregion
     }
 
     #region Fight Logic
@@ -72,7 +121,8 @@ public class BattleManager : MonoBehaviour
     {
         CheckInventory();
 
-        bossHP.text = "Mom HP ♥ " + bossHealth.ToString();
+        candyAmount.text = "x " + Inventory.GetInventoryWeapons().Count.ToString();
+        bossHP.text = "HP ♥ " + bossHealth.ToString();
 
         Inventory.UpdateView();
 
@@ -85,14 +135,18 @@ public class BattleManager : MonoBehaviour
 
     private void EndBattle()
     {
-        FadeAnimation.instance.LoadScene(5);
+        if (!isEndingBattle)
+        {
+            isEndingBattle = true;
+            FadeAnimation.instance.LoadScene(5);
+        }
     }
 
     public void Attack(Weapon weapon)
     {
-        BossHealth -= weapon.damage;
+        StartCoroutine(DrainHealth(weapon.damage));
 
-        bossHP.text = "Mom HP ♥ " + bossHealth.ToString();
+        mom.gameObject.GetComponent<Animator>().SetTrigger("Activate");
 
         DisplayAttackText(weapon);
     }
@@ -123,7 +177,7 @@ public class BattleManager : MonoBehaviour
 
         Inventory.Hide();
 
-        StartCoroutine(ResetToAttackState(weapon, attackTextDuration));
+        attackResetState = StartCoroutine(ResetToAttackState(weapon, attackTextDuration));
     }
 
     #endregion UI Management
@@ -139,19 +193,25 @@ public class BattleManager : MonoBehaviour
             textContainer.text += letter;
             yield return new WaitForSeconds(time);
 
-            if (!AudioManager.instance.GetSound("Talking").source.isPlaying)
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying && !GameManager.instance.IsPaused)
             {
                 AudioManager.instance.Play("Talking");
             }
         }
 
-        if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
+        if (!GameManager.instance.IsPaused)
+        {
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
 
-        AudioManager.instance.Stop("Talking", 0.05f);
+            AudioManager.instance.Stop("Talking", 0.05f);
+        }
     }
 
     private void ReadDialogue()
     {
+        entranceDialog = new List<string>();
+        battleDialog = new List<string>();
+
         TextAsset txt = (TextAsset)Resources.Load("BattleEntrance");
         string fixedText = txt.text.Replace(System.Environment.NewLine, "");
         foreach (string log in fixedText.Split('/')) entranceDialog.Add(log);
@@ -169,9 +229,11 @@ public class BattleManager : MonoBehaviour
         Inventory.RemoveWeapon(weapon);
         Inventory.UpdateView();
 
+        candyAmount.text = "x " + Inventory.GetInventoryWeapons().Count.ToString();
+
         yield return new WaitForSeconds(seconds);
 
-        string txt = battleDialog[(new System.Random()).Next(battleDialog.Count)];
+        string txt = battleDialog[new System.Random().Next(battleDialog.Count)];
         var time = 0f;
 
         float messageSpeed = 0.02f;
@@ -180,7 +242,44 @@ public class BattleManager : MonoBehaviour
 
         StartCoroutine(Type(headerContainer, txt, messageSpeed));
 
-        yield return new WaitForSeconds(time + 2f);
+        yield return new WaitForSeconds(time + attackTextDuration);
+
+        txt = "Give me some of your candy!";
+        time = 0f;
+
+        foreach (char c in txt.ToCharArray()) time += messageSpeed;
+
+        StartCoroutine(Type(headerContainer, txt, messageSpeed));
+
+        var candyDifference = new System.Random().Next(1, 5);
+        StartCoroutine(DrainCandy(candyDifference));
+
+        yield return new WaitForSeconds(time + attackTextDuration);
+
+        txt = "Haha! I took " + candyDifference + " candy from you!";
+        time = 0f;
+
+        if (Inventory.GetInventoryWeapons().Count == 0)
+        {
+            txt = "You have no more candy left! You got what you deserved *evil laughter*";
+            time = 0f;
+
+            foreach (char c in txt.ToCharArray()) time += messageSpeed;
+
+            StartCoroutine(Type(headerContainer, txt, messageSpeed));
+
+            yield return new WaitForSeconds(time + attackTextDuration);
+
+            PauseMenu.TriggerGameOver(GameManager.instance.endingMessages[new System.Random().Next(GameManager.instance.endingMessages.Count)]);
+
+            yield break;
+        }
+
+        foreach (char c in txt.ToCharArray()) time += messageSpeed;
+
+        StartCoroutine(Type(headerContainer, txt, messageSpeed));
+
+        yield return new WaitForSeconds(time + attackTextDuration);
 
         Inventory.Show();
         Inventory.UpdateWindow();
@@ -190,11 +289,53 @@ public class BattleManager : MonoBehaviour
         headerContainer.text = "What will you use against your Mom?";
     }
 
+    private IEnumerator DrainHealth(int drainAmount)
+    {
+        for (int i = 0; i < BossHealth - (BossHealth - drainAmount); i++)
+        {
+            BossHealth -= 1;
+            bossHP.text = "HP ♥ " + bossHealth.ToString();
+
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        if (Inventory.GetInventoryWeapons().Count == 0 && BossHealth != 0)
+        {
+            if (attackResetState != null) StopCoroutine(attackResetState);
+
+            string txt = "You have no more candy left! You got what you deserved *evil laughter*";
+            float time = 0f;
+
+            foreach (char c in txt.ToCharArray()) time += 0.02f;
+
+            StartCoroutine(Type(headerContainer, txt, 0.02f));
+
+            yield return new WaitForSeconds(time + attackTextDuration);
+
+            PauseMenu.TriggerGameOver(GameManager.instance.endingMessages[new System.Random().Next(GameManager.instance.endingMessages.Count)]);
+
+            yield break;
+        }
+    }
+
+    private IEnumerator DrainCandy(int drainAmount)
+    {
+        List<Weapon> temp = Inventory.GetInventoryWeapons();
+
+        for (int i = 0; i < drainAmount; i++)
+        {
+            if (temp.Count != 0) temp.Remove(temp[new System.Random().Next(temp.Count)]);
+            candyAmount.text = "x " + temp.Count.ToString();
+
+            yield return new WaitForSeconds(0.15f);
+        }
+    }
+
     private void CheckInventory()
     {
         if (Inventory.GetInventoryWeapons().Count == 0)
         {
-            PauseMenu.TriggerGameOver("You got no candy from trick or treating!");
+            PauseMenu.TriggerGameOver("You got no candy from trick or treating! Why...");
         } else
         {
             AudioManager.instance.Play("Boss Theme", true);

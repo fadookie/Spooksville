@@ -10,6 +10,8 @@ public class PauseMenu : MonoBehaviour
     public Canvas menu;
     private static GameObject gameOver;
 
+    private CursorLockMode currentLockMode;
+
     private void Start()
     {
         if (instance == null) instance = this;
@@ -37,6 +39,9 @@ public class PauseMenu : MonoBehaviour
 
         GameManager.instance.PauseGame();
 
+        currentLockMode = Cursor.lockState;
+        Cursor.lockState = CursorLockMode.None;
+
         menu.gameObject.SetActive(true);
     }
 
@@ -44,9 +49,12 @@ public class PauseMenu : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
+            Cursor.lockState = CursorLockMode.None;
+
             FadeAnimation.instance.FadeInAnimation();
             gameOver.SetActive(true);
             gameOver.transform.Find("Message").GetComponent<Text>().text = message;
+
             AudioManager.instance.StopAll();
             BattleManager.instance.StopAllCoroutines();
             AudioManager.instance.Play("Game Over");
@@ -57,9 +65,10 @@ public class PauseMenu : MonoBehaviour
     {
         GameManager.instance.ResumeGame();
 
-        if (SceneManager.GetActiveScene().buildIndex == 2) Cursor.lockState = CursorLockMode.None;
-
         menu.gameObject.SetActive(false);
+
+        Cursor.lockState = currentLockMode;
+        if (Inventory.IsEnabled && SceneManager.GetActiveScene().buildIndex == 2) Cursor.lockState = CursorLockMode.None;
     }
 
     public void OnQuitGame()

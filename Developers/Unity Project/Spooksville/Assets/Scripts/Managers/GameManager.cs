@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [HideInInspector] public List<string> endingMessages;
+
     [HideInInspector] public bool IsPaused { get; private set; }
 
     [SerializeField] private float timeUntillBossBattle = 60;
@@ -22,6 +24,10 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        endingMessages.Add("The mom is not nice and she eat my candy, not very nice of her :(");
+        endingMessages.Add("You tried your best, but clearly you didn’t try hard enough.");
+        endingMessages.Add("Better luck next time!");
     }
 
     private void Update()
@@ -74,7 +80,6 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PauseAll();
 
         IsPaused = true;
-        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ResumeGame()
@@ -84,7 +89,6 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.UnPauseAll();
 
         IsPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     #endregion

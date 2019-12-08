@@ -14,7 +14,12 @@ public class HouseLocation : MonoBehaviour
             {
                 hasTriggered = true;
                 DialogManager.instance.DisplayRandomCollectText();
-                Inventory.AddWeapon(WeaponManager.instance.GetRandomWeapon());
+                
+                for (int i = 0; i < new System.Random().Next(1, 3); i++)
+                {
+                    Inventory.AddWeapon(WeaponManager.instance.GetRandomWeapon());
+                }
+
                 Destroy(gameObject);
             }
         }
