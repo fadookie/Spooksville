@@ -144,11 +144,11 @@ public class BattleManager : MonoBehaviour
 
     public void Attack(Weapon weapon)
     {
+        DisplayAttackText(weapon);
+
         StartCoroutine(DrainHealth(weapon.damage));
 
         mom.gameObject.GetComponent<Animator>().SetTrigger("Activate");
-
-        DisplayAttackText(weapon);
     }
 
     #endregion Fight Logic
@@ -252,12 +252,22 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(Type(headerContainer, txt, messageSpeed));
 
         var candyDifference = new System.Random().Next(1, 5);
+        var prevCount = Inventory.GetInventoryWeapons().Count;
+
         StartCoroutine(DrainCandy(candyDifference));
 
         yield return new WaitForSeconds(time + attackTextDuration);
 
+        if (candyDifference > Inventory.GetInventoryWeapons().Count) candyDifference = prevCount;
+
         txt = "Haha! I took " + candyDifference + " candy from you!";
         time = 0f;
+
+        foreach (char c in txt.ToCharArray()) time += messageSpeed;
+
+        StartCoroutine(Type(headerContainer, txt, messageSpeed));
+
+        yield return new WaitForSeconds(time + attackTextDuration);
 
         if (Inventory.GetInventoryWeapons().Count == 0)
         {
@@ -275,12 +285,6 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        foreach (char c in txt.ToCharArray()) time += messageSpeed;
-
-        StartCoroutine(Type(headerContainer, txt, messageSpeed));
-
-        yield return new WaitForSeconds(time + attackTextDuration);
-
         Inventory.Show();
         Inventory.UpdateWindow();
         Inventory.UpdateView();
@@ -291,15 +295,9 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator DrainHealth(int drainAmount)
     {
-        for (int i = 0; i < BossHealth - (BossHealth - drainAmount); i++)
-        {
-            BossHealth -= 1;
-            bossHP.text = "HP ♥ " + bossHealth.ToString();
+        var temp = bossHealth - drainAmount;
 
-            yield return new WaitForSeconds(0.02f);
-        }
-
-        if (Inventory.GetInventoryWeapons().Count == 0 && BossHealth != 0)
+        if (Inventory.GetInventoryWeapons().Count == 0 && temp != 0)
         {
             if (attackResetState != null) StopCoroutine(attackResetState);
 
@@ -315,6 +313,14 @@ public class BattleManager : MonoBehaviour
             PauseMenu.TriggerGameOver(GameManager.instance.endingMessages[new System.Random().Next(GameManager.instance.endingMessages.Count)]);
 
             yield break;
+        }
+
+        for (int i = 0; i < BossHealth - (BossHealth - drainAmount); i++)
+        {
+            BossHealth -= 1;
+            bossHP.text = "HP ♥ " + bossHealth.ToString();
+
+            yield return new WaitForSeconds(0.02f);
         }
     }
 
