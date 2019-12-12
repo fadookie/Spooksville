@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        endingMessages.Add("The mom is not nice and she eat my candy, not very nice of her :(");
+        endingMessages.Add("Mom is not nice and she eat my candy, not very nice of her :(");
         endingMessages.Add("You tried your best, but clearly you didn’t try hard enough.");
         endingMessages.Add("Better luck next time!");
     }
@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         if (IsPaused) return;
 
         AudioManager.instance.PauseAll();
+        Time.timeScale = 0;
 
         IsPaused = true;
     }
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         if (!IsPaused) return;
 
         AudioManager.instance.UnPauseAll();
+        Time.timeScale = 1;
 
         IsPaused = false;
     }

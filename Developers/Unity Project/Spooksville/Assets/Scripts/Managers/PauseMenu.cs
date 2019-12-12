@@ -67,7 +67,7 @@ public class PauseMenu : MonoBehaviour
 
         menu.gameObject.SetActive(false);
 
-        Cursor.lockState = currentLockMode;
+        Cursor.lockState = CursorLockMode.Locked;
         if (Inventory.IsEnabled && SceneManager.GetActiveScene().buildIndex == 2) Cursor.lockState = CursorLockMode.None;
     }
 

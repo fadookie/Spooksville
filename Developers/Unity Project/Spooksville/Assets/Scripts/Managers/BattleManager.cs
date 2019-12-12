@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class BattleManager : MonoBehaviour
 {
@@ -80,7 +81,9 @@ public class BattleManager : MonoBehaviour
 
     private void Update()
     {
-        if (bossHealth <= totalBossHealth / 2 && !hasTriggeredHalftimeAnimations)
+        Debug.Log(Inventory.Window + " | " + Inventory.windows);
+
+        if (bossHealth <= 100)
         {
             hasTriggeredHalftimeAnimations = true;
 
@@ -191,6 +194,7 @@ public class BattleManager : MonoBehaviour
         foreach (char letter in text.ToCharArray())
         {
             textContainer.text += letter;
+
             yield return new WaitForSeconds(time);
 
             if (!AudioManager.instance.GetSound("Talking").source.isPlaying && !GameManager.instance.IsPaused)
@@ -205,6 +209,34 @@ public class BattleManager : MonoBehaviour
 
             AudioManager.instance.Stop("Talking", 0.05f);
         }
+    }
+
+    public IEnumerator BossEndMessage(Text textContainer, string text, float time)
+    {
+        textContainer.text = "";
+
+        foreach (char letter in text.ToCharArray())
+        {
+            textContainer.text += letter;
+
+            yield return new WaitForSeconds(time);
+
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying && !GameManager.instance.IsPaused)
+            {
+                AudioManager.instance.Play("Talking");
+            }
+        }
+
+        if (!GameManager.instance.IsPaused)
+        {
+            if (!AudioManager.instance.GetSound("Talking").source.isPlaying) AudioManager.instance.Play("Talking");
+
+            AudioManager.instance.Stop("Talking", 0.05f);
+        }
+
+        yield return new WaitForSeconds(attackTextDuration);
+
+        PauseMenu.TriggerGameOver(GameManager.instance.endingMessages[new System.Random().Next(GameManager.instance.endingMessages.Count)]);
     }
 
     private void ReadDialogue()
@@ -249,6 +281,8 @@ public class BattleManager : MonoBehaviour
 
         foreach (char c in txt.ToCharArray()) time += messageSpeed;
 
+        player.gameObject.GetComponent<Animator>().SetTrigger("Activate");
+
         StartCoroutine(Type(headerContainer, txt, messageSpeed));
 
         var candyDifference = new System.Random().Next(1, 5);
@@ -260,7 +294,17 @@ public class BattleManager : MonoBehaviour
 
         if (candyDifference > Inventory.GetInventoryWeapons().Count) candyDifference = prevCount;
 
-        txt = "Haha! I took " + candyDifference + " candy from you!";
+        string formatted;
+
+        if (candyDifference == 1)
+        {
+            formatted = "candy";
+        } else
+        {
+            formatted = "candies";
+        }
+
+        txt = string.Format("Haha! I took " + candyDifference + " {0} from you!", formatted);
         time = 0f;
 
         foreach (char c in txt.ToCharArray()) time += messageSpeed;
@@ -285,9 +329,9 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        Inventory.Show();
         Inventory.UpdateWindow();
         Inventory.UpdateView();
+        Inventory.Show();
 
         canAttack = true;
         headerContainer.text = "What will you use against your Mom?";
@@ -306,11 +350,7 @@ public class BattleManager : MonoBehaviour
 
             foreach (char c in txt.ToCharArray()) time += 0.02f;
 
-            StartCoroutine(Type(headerContainer, txt, 0.02f));
-
-            yield return new WaitForSeconds(time + attackTextDuration);
-
-            PauseMenu.TriggerGameOver(GameManager.instance.endingMessages[new System.Random().Next(GameManager.instance.endingMessages.Count)]);
+            StartCoroutine(BossEndMessage(headerContainer, txt, 0.02f));
 
             yield break;
         }
@@ -326,12 +366,10 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator DrainCandy(int drainAmount)
     {
-        List<Weapon> temp = Inventory.GetInventoryWeapons();
-
         for (int i = 0; i < drainAmount; i++)
         {
-            if (temp.Count != 0) temp.Remove(temp[new System.Random().Next(temp.Count)]);
-            candyAmount.text = "x " + temp.Count.ToString();
+            if (Inventory.GetInventoryWeapons().Count != 0) Inventory.RemoveWeapon(Inventory.GetInventoryWeapons()[new System.Random().Next(Inventory.GetInventoryWeapons().Count)]);
+            candyAmount.text = "x " + Inventory.GetInventoryWeapons().Count.ToString();
 
             yield return new WaitForSeconds(0.15f);
         }

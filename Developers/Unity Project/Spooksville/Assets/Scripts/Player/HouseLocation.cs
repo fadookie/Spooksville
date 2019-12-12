@@ -20,8 +20,15 @@ public class HouseLocation : MonoBehaviour
                     Inventory.AddWeapon(WeaponManager.instance.GetRandomWeapon());
                 }
 
+                TurnOffHouseLight();
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void TurnOffHouseLight()
+    {
+        Collider2D collider = Physics2D.CircleCast(transform.position, 3, Vector2.left, 5f, LayerMask.GetMask("House Lights")).collider;
+        if (collider != null) Destroy(collider.gameObject);
     }
 }

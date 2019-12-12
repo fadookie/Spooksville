@@ -85,6 +85,12 @@ public abstract class Inventory
 
     public static void UpdateWindow()
     {
+        if (Window == windows)
+        {
+            Window -= 1;
+            return;
+        }
+
         foreach (Text text in BattleManager.instance.inventoryContainers)
         {
             if (text.text != "") return;
