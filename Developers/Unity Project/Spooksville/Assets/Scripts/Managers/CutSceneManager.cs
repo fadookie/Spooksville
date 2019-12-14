@@ -72,15 +72,15 @@ public class CutSceneManager : MonoBehaviour
     private void ReadDialog()
     {
         TextAsset txt = (TextAsset)Resources.Load("CutScene 1 Dialog");
-        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        string fixedText = txt.text.Replace("\n", string.Empty);
         foreach (string log in fixedText.Split('/')) dialogCSOne.Add(log);
 
         txt = (TextAsset)Resources.Load("CutScene 2 Dialog");
-        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        fixedText = txt.text.Replace("\n", string.Empty);
         foreach (string log in fixedText.Split('/')) dialogCSTwo.Add(log);
 
         txt = (TextAsset)Resources.Load("CutScene 3 Dialog");
-        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        fixedText = txt.text.Replace("\n", string.Empty);
         foreach (string log in fixedText.Split('/')) dialogCSThree.Add(log);
     }
 

@@ -95,15 +95,18 @@ public class BattleManager : MonoBehaviour
         {
             leftArrow.SetActive(false);
             rightArrow.SetActive(false);
-        } else if (Inventory.Window == 0)
+        }
+        else if (Inventory.Window == 0)
         {
             leftArrow.SetActive(false);
             rightArrow.SetActive(true);
-        } else if (Inventory.Window == Inventory.windows - 1)
+        }
+        else if (Inventory.Window == Inventory.windows - 1)
         {
             leftArrow.SetActive(true);
             rightArrow.SetActive(false);
-        } else
+        }
+        else
         {
             leftArrow.SetActive(true);
             rightArrow.SetActive(true);
@@ -238,11 +241,11 @@ public class BattleManager : MonoBehaviour
         battleDialog = new List<string>();
 
         TextAsset txt = (TextAsset)Resources.Load("BattleEntrance");
-        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        string fixedText = txt.text.Replace("\n", string.Empty);
         foreach (string log in fixedText.Split('/')) entranceDialog.Add(log);
 
         txt = (TextAsset)Resources.Load("Mom");
-        fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        fixedText = txt.text.Replace("\n", string.Empty);
         foreach (string log in fixedText.Split('/')) battleDialog.Add(log);
     }
 
@@ -292,7 +295,8 @@ public class BattleManager : MonoBehaviour
         if (candyDifference == 1)
         {
             formatted = "candy";
-        } else
+        }
+        else
         {
             formatted = "candies";
         }
@@ -373,7 +377,8 @@ public class BattleManager : MonoBehaviour
         if (Inventory.GetInventoryWeapons().Count == 0)
         {
             PauseMenu.TriggerGameOver("You got no candy from trick or treating! Why...");
-        } else
+        }
+        else
         {
             AudioManager.instance.Play("Boss Theme", true);
         }

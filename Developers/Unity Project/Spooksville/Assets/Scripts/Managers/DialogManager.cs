@@ -73,7 +73,7 @@ public class DialogManager : MonoBehaviour
     private void InitCollectionMessages()
     {
         TextAsset txt = (TextAsset)Resources.Load("Town");
-        string fixedText = txt.text.Replace(System.Environment.NewLine, "");
+        string fixedText = txt.text.Replace("\n", "");
         foreach (string log in fixedText.Split('/')) collectionMessages.Add(log);
     }
 

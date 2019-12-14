@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingMessages: []
-  timeUntillBossBattle: 1
+  timeUntillBossBattle: 180
 --- !u!4 &244395726
 Transform:
   m_ObjectHideFlags: 0
