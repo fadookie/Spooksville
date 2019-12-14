@@ -32,7 +32,7 @@ public abstract class Inventory
     {
         for (int i = 0; i < 9; i++)
         {
-            int weaponIndex = i + (9 * (window));
+            int weaponIndex = i + (9 * window);
 
             if (weaponIndex < weapons.Count)
             {

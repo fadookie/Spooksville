@@ -11,7 +11,6 @@ public class BattleManager : MonoBehaviour
 
     [Header("Boss Settings")]
     [SerializeField] private int bossHealth;
-    private int totalBossHealth;
 
     public int BossHealth
     {
@@ -45,8 +44,6 @@ public class BattleManager : MonoBehaviour
     public Image player;
     public Image background;
 
-    private bool hasTriggeredHalftimeAnimations;
-
     [Header("Other")]
     public float attackTextDuration;
 
@@ -63,8 +60,6 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        totalBossHealth = bossHealth;
-
         leftArrow = GameObject.Find("Canvas UI").transform.Find("Down Scroll").gameObject;
         rightArrow = GameObject.Find("Canvas UI").transform.Find("Up Scroll").gameObject;
 
@@ -85,8 +80,6 @@ public class BattleManager : MonoBehaviour
 
         if (bossHealth <= 100)
         {
-            hasTriggeredHalftimeAnimations = true;
-
             background.gameObject.GetComponent<Animator>().SetTrigger("Activate");
         }
 
@@ -98,7 +91,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (Inventory.windows == 0)
+        if (Inventory.windows == 1)
         {
             leftArrow.SetActive(false);
             rightArrow.SetActive(false);
