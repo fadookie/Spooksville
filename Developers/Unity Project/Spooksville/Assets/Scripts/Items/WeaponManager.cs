@@ -9,6 +9,8 @@ public class WeaponManager : MonoBehaviour
     public Weapon[] weapons;
     private List<Weapon> weaponsList = new List<Weapon>();
 
+    public bool predefinedWeapons;
+
     private void Start()
     {
         if (instance == null)
@@ -18,6 +20,11 @@ public class WeaponManager : MonoBehaviour
         }
 
         weaponsList.AddRange(weapons);
+
+        if (predefinedWeapons)
+        {
+            for (int i = 0; i < 28; i++) Inventory.AddWeapon(GetRandomWeapon());
+        }
     }
 
     public void RegisterWeapon(Weapon weapon)

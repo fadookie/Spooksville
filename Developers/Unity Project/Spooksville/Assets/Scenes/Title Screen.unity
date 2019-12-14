@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingMessages: []
-  timeUntillBossBattle: 18
+  timeUntillBossBattle: 1
 --- !u!4 &244395726
 Transform:
   m_ObjectHideFlags: 0
@@ -3908,7 +3908,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Akash Patel
 
-    David
+    David George
 
     Esteban Garcia
 
@@ -3982,10 +3982,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2047300997}
-    characterCount: 48
+    characterCount: 55
     spriteCount: 0
-    spaceCount: 6
-    wordCount: 7
+    spaceCount: 7
+    wordCount: 8
     linkCount: 0
     lineCount: 4
     pageCount: 1
