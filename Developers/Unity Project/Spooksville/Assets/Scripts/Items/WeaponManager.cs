@@ -23,7 +23,7 @@ public class WeaponManager : MonoBehaviour
 
         if (predefinedWeapons)
         {
-            for (int i = 0; i < 28; i++) Inventory.AddWeapon(GetRandomWeapon());
+            for (int i = 0; i < 12; i++) Inventory.AddWeapon(GetRandomWeapon());
         }
     }
 

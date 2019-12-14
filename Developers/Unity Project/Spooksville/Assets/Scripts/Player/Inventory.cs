@@ -61,16 +61,14 @@ public abstract class Inventory
     {
         weapons.Add(weapon);
 
-        windows = (weapons.Count / 9);
-        if (weapons.Count % 9 != 0 && weapons.Count < 9) windows++;
+        windows = (weapons.Count / 9) + 1;
     }
 
     public static void RemoveWeapon(Weapon weapon)
     {
         weapons.Remove(weapon);
 
-        windows = (weapons.Count / 9);
-        if (weapons.Count % 9 != 0 && weapons.Count < 9) windows++;
+        windows = (weapons.Count / 9) + 1;
     }
 
     public static List<Weapon> GetInventoryWeapons()
