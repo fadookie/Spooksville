@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FadeAnimation : MonoBehaviour
 {
     public static FadeAnimation instance;
     private Animator anim;
+
+    public Image fade;
     
     private int scene;
 

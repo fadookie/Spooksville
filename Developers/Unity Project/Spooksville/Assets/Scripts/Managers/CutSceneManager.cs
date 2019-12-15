@@ -123,7 +123,8 @@ public class CutSceneManager : MonoBehaviour
             dialogIndex++;
         }
 
-        FadeAnimation.instance.LoadScene(buildScene);
+        if (!isLoading) FadeAnimation.instance.LoadScene(buildScene);
+        isLoading = true;
     }
 
     private IEnumerator Type(Text textContainer, string text, float typeTime, ColorMode mode)

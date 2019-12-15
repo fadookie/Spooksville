@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    #region Pause Menu
+    #region Pause
 
     public void PauseGame()
     {
@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
 
         AudioManager.instance.PauseAll();
         Time.timeScale = 0;
+
+        FadeAnimation.instance.fade.gameObject.SetActive(false);
 
         IsPaused = true;
     }
@@ -89,6 +91,8 @@ public class GameManager : MonoBehaviour
 
         AudioManager.instance.UnPauseAll();
         Time.timeScale = 1;
+
+        FadeAnimation.instance.fade.gameObject.SetActive(true);
 
         IsPaused = false;
     }

@@ -3207,6 +3207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d690e531e94d64f878be589090e635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fade: {fileID: 1142923449}
 --- !u!1 &1753607285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3750,7 +3751,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Joseph Valdivia
+  m_text: 'Andrew Santana
+
+    Joseph Valdivia'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c2ab9ed3b220dbc4db8abfb0693b5542, type: 2}
   m_sharedMaterial: {fileID: 8787524860053039317, guid: c2ab9ed3b220dbc4db8abfb0693b5542,
@@ -3796,7 +3799,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 15
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -3820,12 +3823,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2015846212}
-    characterCount: 15
+    characterCount: 30
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 3
+    wordCount: 4
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
