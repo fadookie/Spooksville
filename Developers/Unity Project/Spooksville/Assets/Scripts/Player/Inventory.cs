@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,149 +7,68 @@ public abstract class Inventory
 {
     private static List<Weapon> weapons = new List<Weapon>();
 
-    private static bool isPressed;
+    private static int window;
 
-    private static int window = 1;
-    private static int windows = 0;
-    private static int row;
-    public static int Row
+    public static int Window
     {
         get
         {
-            return row;
+            return window;
         }
 
         set
         {
-            if (value < 0)
-            {
-                row = 0;
+            if (value < 0 || value > windows - 1) return;
 
-                if (window - 1 < 1)
-                {
-                    window = 1;
-                } else
-                {
-                    window -= 1;
-                }
-
-                return;
-            }
-
-            if (value > 2)
-            {
-                row = 2;
-
-                if (window + 1 > windows)
-                {
-                    window = windows;
-                }
-                else
-                {
-                    window += 1;
-                }
-
-                return;
-            }
-
-            row = value;
-        }
-    }
-    private static int column;
-    public static int Column
-    {
-        get
-        {
-            return column;
-        }
-
-        set
-        {
-            if (value < 0)
-            {
-                column = 0;
-                return;
-            }
-
-            if (value > 2)
-            {
-                column = 2;
-                return;
-            }
-
-            column = value;
+            window = value;
         }
     }
 
-    public static void InventorySelection()
-    {
-        var x = Input.GetAxisRaw("Horizontal");
-        var y = Input.GetAxisRaw("Vertical");
+    public static int windows;
 
-        if (!isPressed)
-        {
-            Column += (int)x;
-            Row += (int)-y;
-
-            UpdateView();
-        }
-
-        if (x != 0 || y != 0)
-        {
-            isPressed = true;
-        }
-        else
-        {
-            isPressed = false;
-        }
-    }
+    public static bool IsEnabled { get; private set; }
 
     public static void UpdateView()
     {
-        for (int i = 0; i < weapons.Count; i++)
+        for (int i = 0; i < 9; i++)
         {
-            if (i < 9)
+            int weaponIndex = i + (9 * window);
+
+            if (weaponIndex < weapons.Count)
             {
-                int weaponIndex = i + (9 * (window - 1));
-
-                if (weapons[i] != null)
-                {
-                    if (weaponIndex < weapons.Count)
-                    {
-                        BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].name;
-                    } else
-                    {
-                        BattleManager.instance.inventoryContainers[i].text = "";
-                    }
-
-                    BattleManager.instance.inventoryContainers[i].color = new Color(1f, 1f, 1f);
-                }
+                BattleManager.instance.inventoryContainers[i].text = weapons[weaponIndex].name;
+            }
+            else
+            {
+                BattleManager.instance.inventoryContainers[i].text = "";
             }
         }
-
-        BattleManager.instance.inventoryContainers[GetPreSelectionWeaponIndex()].color = new Color(0.5f, 1f, 1f);
     }
 
     public static void Hide()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
+        IsEnabled = false;
+
         foreach (Text text in BattleManager.instance.inventoryContainers)
         {
             text.gameObject.SetActive(false);
         }
     }
 
-    public static int GetPreSelectionWeaponIndex()
-    {
-        //Work on non full 9 screens
-        int index = (3 * (Row)) + (Column);
-        return index;
-    }
-
     public static void AddWeapon(Weapon weapon)
     {
         weapons.Add(weapon);
 
-        windows = (weapons.Count / 9) + 1;
+        windows = (weapons.Count / 10) + 1;
+    }
+
+    public static void RemoveWeapon(Weapon weapon)
+    {
+        weapons.Remove(weapon);
+
+        windows = (weapons.Count / 10) + 1;
     }
 
     public static List<Weapon> GetInventoryWeapons()
@@ -157,12 +76,36 @@ public abstract class Inventory
         return weapons;
     }
 
+    public static void SetInventoryWeapons(List<Weapon> value)
+    {
+        weapons = value;
+    }
+
+    public static void UpdateWindow()
+    {
+        if (Window == windows)
+        {
+            Window -= 1;
+            return;
+        }
+
+        foreach (Text text in BattleManager.instance.inventoryContainers)
+        {
+            if (text.text != "") return;
+        }
+
+        Window -= 1;
+    }
+
     public static void Show()
     {
+        Cursor.lockState = CursorLockMode.None;
+
+        IsEnabled = true;
+
         foreach (Text text in BattleManager.instance.inventoryContainers)
         {
             text.gameObject.SetActive(true);
         }
     }
 }
- 
